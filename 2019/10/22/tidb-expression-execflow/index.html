@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        TiDB表达式执行过程
+    </div>
+    <p class="sub">Oct 22 2019</p>
+    <div class="post-content">
+        <h1 id="TiDB表达式执行过程"><a href="#TiDB表达式执行过程" class="headerlink" title="TiDB表达式执行过程"></a><code>TiDB</code>表达式执行过程</h1><h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p><code>TiDB</code>向下兼容<code>MySQL</code>，但同时也支持许多<code>MySQL</code>里所没有的表达式，本文将描述表达式被解析和执行的过程。</p>
+<a id="more"></a>
+
+<h2 id="表达式被解析的过程"><a href="#表达式被解析的过程" class="headerlink" title="表达式被解析的过程"></a>表达式被解析的过程</h2><p>我们先来看<code>TiDB</code>的源码，<code>server/server.go</code>中为<code>Server</code>定义<code>Run</code>方法里实现了监听连接的逻辑。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Server)</span> <span class="title">Run</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		conn, err := s.listener.Accept()</span><br><span class="line">		...</span><br><span class="line">		<span class="keyword">go</span> s.onConn(clientConn)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在经过错误处理之后，这个连接对象被塞给了<code>onConn</code>方法，我们顺藤摸瓜继续看。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// onConn runs in its own goroutine, handles queries from this connection.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Server)</span> <span class="title">onConn</span><span class="params">(conn *clientConn)</span></span> &#123;</span><br><span class="line">	ctx := logutil.WithConnID(context.Background(), conn.connectionID)</span><br><span class="line">	...</span><br><span class="line">	conn.Run(ctx)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>经过一些处理之后，会调用<code>conn.Run</code>方法，继续看看<code>Run</code>方法里面写了些什么。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Run reads client query and writes query result to client in for loop, if there is a panic during query handling,</span></span><br><span class="line"><span class="comment">// it will be recovered and log the panic error.</span></span><br><span class="line"><span class="comment">// This function returns and the connection is closed if there is an IO error or there is a panic.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cc *clientConn)</span> <span class="title">Run</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		...</span><br><span class="line">		data, err := cc.readPacket()</span><br><span class="line">		...</span><br><span class="line">		<span class="keyword">if</span> err = cc.dispatch(ctx, data); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// error handle</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确认过注释，就是我想要的代码，里面所调用的<code>cc.dispatch</code>就是处理单个查询的方法。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dispatch handles client request based on command which is the first byte of the data.</span></span><br><span class="line"><span class="comment">// It also gets a token from server which is used to limit the concurrently handling clients.</span></span><br><span class="line"><span class="comment">// The most frequently used command is ComQuery.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cc *clientConn)</span> <span class="title">dispatch</span><span class="params">(ctx context.Context, data []<span class="keyword">byte</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line">	cmd := data[<span class="number">0</span>]</span><br><span class="line">	data = data[<span class="number">1</span>:]</span><br><span class="line">	<span class="keyword">if</span> cmd &lt; mysql.ComEnd &#123;</span><br><span class="line">		cc.ctx.SetCommandValue(cmd)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dataStr := <span class="keyword">string</span>(hack.String(data))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> cmd &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">case</span> mysql.ComQuery: <span class="comment">// Most frequently used command.</span></span><br><span class="line">		<span class="comment">// For issue 1989</span></span><br><span class="line">		<span class="comment">// Input payload may end with byte '\0', we didn't find related mysql document about it, but mysql</span></span><br><span class="line">		<span class="comment">// implementation accept that case. So trim the last '\0' here as if the payload an EOF string.</span></span><br><span class="line">		<span class="comment">// See http://dev.mysql.com/doc/internals/en/com-query.html</span></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(data) &gt; <span class="number">0</span> &amp;&amp; data[<span class="built_in">len</span>(data)<span class="number">-1</span>] == <span class="number">0</span> &#123;</span><br><span class="line">			data = data[:<span class="built_in">len</span>(data)<span class="number">-1</span>]</span><br><span class="line">			dataStr = <span class="keyword">string</span>(hack.String(data))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> cc.handleQuery(ctx, dataStr)</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="keyword">return</span> mysql.NewErrf(mysql.ErrUnknown, <span class="string">"command %d not supported now"</span>, cmd)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我摘取了一部分 dispatch 的代码，以我们最常用的 query function 为例，接着看<code>handleQuery</code>函数。 </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cc *clientConn)</span> <span class="title">handleQuery</span><span class="params">(ctx context.Context, sql <span class="keyword">string</span>)</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line">	rs, err := cc.ctx.Execute(ctx, sql)</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>cc.ctx</code>是一个<code>QueryCtx</code>接口，找到实现了这个接口的<code>TiDBContext</code>结构体，在<code>server/drive_tidb.go</code>之中，实现的方法代码如下。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Execute implements QueryCtx Execute method.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(tc *TiDBContext)</span> <span class="title">Execute</span><span class="params">(ctx context.Context, sql <span class="keyword">string</span>)</span> <span class="params">(rs []ResultSet, err error)</span></span> &#123;</span><br><span class="line">	rsList, err := tc.session.Execute(ctx, sql)</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>session.Execute</code>的实现在<code>session/session.go</code>之中，从<code>TiDBContext</code>之中调用的 sql 执行命令只是其中的一部分，还有其他 sql 调用也会在这里执行这里处理。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> session <span class="keyword">struct</span> &#123;</span><br><span class="line">	...</span><br><span class="line">	parser *parser.Parser</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *session)</span> <span class="title">Execute</span><span class="params">(ctx context.Context, sql <span class="keyword">string</span>)</span> <span class="params">(recordSets []sqlexec.RecordSet, err error)</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line">	charsetInfo, collation := s.sessionVars.GetCharsetInfo()</span><br><span class="line">	<span class="keyword">if</span> recordSets, err = s.execute(ctx, sql); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		s.sessionVars.StmtCtx.AppendError(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *session)</span> <span class="title">execute</span><span class="params">(ctx context.Context, sql <span class="keyword">string</span>)</span> <span class="params">(recordSets []sqlexec.RecordSet, err error)</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line">	stmtNodes, warns, err := s.ParseSQL(ctx, sql, charsetInfo, collation)</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *session)</span> <span class="title">ParseSQL</span><span class="params">(ctx context.Context, sql, charset, collation <span class="keyword">string</span>)</span> <span class="params">([]ast.StmtNode, []error, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> span := opentracing.SpanFromContext(ctx); span != <span class="literal">nil</span> &amp;&amp; span.Tracer() != <span class="literal">nil</span> &#123;</span><br><span class="line">		span1 := span.Tracer().StartSpan(<span class="string">"session.ParseSQL"</span>, opentracing.ChildOf(span.Context()))</span><br><span class="line">		<span class="keyword">defer</span> span1.Finish()</span><br><span class="line">	&#125;</span><br><span class="line">	s.parser.SetSQLMode(s.sessionVars.SQLMode)</span><br><span class="line">	s.parser.EnableWindowFunc(s.sessionVars.EnableWindowFunction)</span><br><span class="line">	<span class="keyword">return</span> s.parser.Parse(sql, charset, collation)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进入到<code>session</code>的定义之中，一路追踪表达式被处理的流程，发现他被丢给了<code>parser</code>。</p>
+<p><a href="https://github.com/pingcap/parser" target="_blank" rel="noopener"><code>parser</code></a>是一个被独立出来专门用来处理<code>TiDB</code>的表达式的组件。对于<code>parser</code>的逻辑解读将在下一篇博客中描述。</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TiDB表达式执行过程"><span class="toc-text">TiDB表达式执行过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#序言"><span class="toc-text">序言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表达式被解析的过程"><span class="toc-text">表达式被解析的过程</span></a></li></ol></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+            <a class="prev" href="/2019/11/02/about-blockchain/">
+                <i class="iconfont icon-left"></i>
+                <span class="prev-text">区块链是什么?</span>
+            </a>
+        
+        
+            <a class="next" href="/2019/10/15/about-tidb-jp-doc/">
+                
+                <span class="prev-text">关于 TiDB 日文文档</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2019
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        Cherry Bot
+    </div>
+    <p class="sub">Apr 23 2020</p>
+    <div class="post-content">
+        <p><img src="https://user-images.githubusercontent.com/9587680/60788142-95abc100-a18e-11e9-9a42-fbf21a023449.jpg" alt="bot logo"></p>
+<h2 id="How-I-cames-from"><a href="#How-I-cames-from" class="headerlink" title="How I cames from"></a>How I cames from</h2><p>I will talk about this bot from my story. Things began from was July 2019, I joined PingCAP as an intern. Holy I was a noob of golang and knew nothing about rust that time. The best way learning a language is by practising, I started my first golang project named cherry-picker. As the name shows, this is a tool which helps PingCAP’s engineers cherry pick PRs from master branch to release branch. The project soon ran out of my expectation, we started in TiDB, then expanded to TiKV and PD. I noticed that this bot is such awesome, in the following months, the bot growed quickly, some features were deprecated and some were optimized. Nowadays, the bot is widely used in PingCAP, and we think it’s time to share the bot with you!</p>
+<a id="more"></a>
+
+<h2 id="About-my-name"><a href="#About-my-name" class="headerlink" title="About my name"></a>About my name</h2><p>For a long time, I name the bot “cherry-picker”, because it’s the first feature of the bot. This time, I give it a new name, “Cherry Bot”, so the logo of bot will not change lol! By now, there are over 10 providers in this bot 🍻.</p>
+<h2 id="The-mostly-used-features"><a href="#The-mostly-used-features" class="headerlink" title="The mostly used features"></a>The mostly used features</h2><h3 id="Cherry-Pick"><a href="#Cherry-Pick" class="headerlink" title="Cherry Pick"></a>Cherry Pick</h3><p>Bug fix pull requests in repositories with multi branches like <code>release-xx</code> and <code>master</code> are usually required to be cherry picked to release branches, manually do this would be tedious. It would be worse if we forget cherry picking bug-fix pull requests. Then the bot comes, it cherry picks every merged PR with specific labels, like pull request labeled with <code>needs-cherry-pick-2.0</code> will be cherry picked to <code>release-2.0</code> branch. What about conflicts? The conflicts are common between branches, the bot can be configured to generate conflicted pull requests either report a conflict failure. The conflict pull requests would be like the following which can be specified by IDEs.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">branch contents</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">bug fix contents</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1234567890abcdef</span><br></pre></td></tr></table></figure>
+
+<h3 id="Auto-Merge"><a href="#Auto-Merge" class="headerlink" title="Auto Merge"></a>Auto Merge</h3><p>If you are using some languages which have a heavy cost in compile or there are some tests that would last for a long time. After the reviewing of the pull request is finished, the CI may still running. Sometimes we would require the pull request tested with up to date changes. GitHub offers <code>Update Branch</code> to merge the latest changes from base branch, but after this action, the CI should be restarted. Think about this, a pull request is ready to merge and waiting for CI finished, then the base branch is updated, which makes a force update of this pull request and the CI restarts. A thousands years later, the CI is finally about to success, a pull request merged into the base branch again which makes the CI should restarted again. The same thing may be caused by you AFK while waiting for CI done. This makes pull requests under the state of competition, and the most of the CI’s job would be waste. The bot offer a mechanism to merge pull requests in a queue. When maitainers commented with <code>/merge</code>, the bot will labeled the pull request with <code>status/can merge</code> which stands for the pull request will be auto merged. If the pull request need to be waited for others, bot will comment with all the waited pull request numbers. This auto merge job can be canceled by remove the <code>status/can merge</code> label easily.</p>
+<h3 id="Redeliver-Command"><a href="#Redeliver-Command" class="headerlink" title="Redeliver Command"></a>Redeliver Command</h3><p>PingCAP uses Jenkins for CI trigger and scheduler, some commands in Jenkins are only available for organization members. Besides, we also want some commands can be used by pull request owner, that’s why redeliver command comes. Comment with <code>@bot /run-integration-test</code>, then the bot will trigger this for you by comment with <code>/run-integration-test</code>. Do not try call <code>@bot /merge</code>, this would never work 😕.</p>
+<h3 id="Auto-Update"><a href="#Auto-Update" class="headerlink" title="Auto Update"></a>Auto Update</h3><p>Some large project will have multiple repos. For example <code>TiKV</code> have the dependency <code>rust-rocksdb</code> and <code>rust-rocksdb</code> is based on <code>RocksDB</code> and <code>Titan</code>. This means any updates from <code>RocksDB</code> or <code>Titan</code> will need to be updated to <code>rust-rocksdb</code> then <code>TiKV</code>. We are always not to do this manually, that’s the bot’s time, give me the chore. The bot will auto file up a pull request to update the sub modules.</p>
+<h3 id="More-Providers"><a href="#More-Providers" class="headerlink" title="More Providers"></a>More Providers</h3><p>There are still many providers I’ve not mentioned in this blog, check it out if you’re interested <a href="https://github.com/pingcap-incubator/cherry-bot/tree/master/pkg/providers" target="_blank" rel="noopener">https://github.com/pingcap-incubator/cherry-bot/tree/master/pkg/providers</a>. For those features added into bot, I try to make them common instead of dedicated. And I’m expecting to get some feedbacks from community users.</p>
+<h2 id="About-the-Code"><a href="#About-the-Code" class="headerlink" title="About the Code"></a>About the Code</h2><p>When I code this bot, I’m new to Golang. There are some unnacessary interfaces, redundant expressions and unsatisfied error handlings. I’ve made some efforts to make clean up the code, but it’s so so so a big work, it’s just like code the bot again 😭.</p>
+<h2 id="Grumbles"><a href="#Grumbles" class="headerlink" title="Grumbles"></a>Grumbles</h2><p>I’ve written a lot of Golang code in the past year. This language is like a quad bike which makes everyone easy to drive. When use Golang in some projects, I often code many high repeatable expressions, like <code>if err != nil</code> which makes me feel pain. Also the feeling of controlling everything in CPP is missing. It’s not smart in both grammar and extreme performance. However, it’s still a preferred language for building some apps, where the performance is good enough and you don’t need to worry about whether memory is in stack or heap(I’m not sure whether it’s an advantage). Anyway, longtime writing Golang is tired, more features are always wanted like iterator, general types etc. The last complain, when doing some worthless jobs for fun, I’m very willing to try languages with more complexity. A further thinking, will you like a language which brings the ability of low level programming without knowledge of computer system?</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-I-cames-from"><span class="toc-text">How I cames from</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-my-name"><span class="toc-text">About my name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-mostly-used-features"><span class="toc-text">The mostly used features</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cherry-Pick"><span class="toc-text">Cherry Pick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Auto-Merge"><span class="toc-text">Auto Merge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redeliver-Command"><span class="toc-text">Redeliver Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Auto-Update"><span class="toc-text">Auto Update</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#More-Providers"><span class="toc-text">More Providers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-the-Code"><span class="toc-text">About the Code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Grumbles"><span class="toc-text">Grumbles</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+                
+                    <a href="/tags/English/">English</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+        
+            <a class="next" href="/2020/03/03/public-figure/">
+                
+                <span class="prev-text">关于公众人物与普通人关系的想法</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2019
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>

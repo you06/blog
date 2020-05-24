@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        关于 TiDB 日文文档
+    </div>
+    <p class="sub">Oct 15 2019</p>
+    <div class="post-content">
+        <p><code>TiDB</code>日文文档这个坑其实早就有想法了，但原本也没打算这么早开。</p>
+<ul>
+<li><a href="https://you06.github.io/tidb-docs-jp/" target="_blank" rel="noopener">doc</a></li>
+<li><a href="https://github.com/you06/tidb-docs-jp" target="_blank" rel="noopener">repo</a></li>
+</ul>
+<a id="more"></a>
+
+<h1 id="关于开坑"><a href="#关于开坑" class="headerlink" title="关于开坑"></a>关于开坑</h1><p>周末的时候在看日语语法，看了之后觉得需要做些题，我一个萌新也不知道做什么好，就跑去问大手子。大手子先是说“我不做题的”，然后给我指了条明路——翻译ben子，据说多翻翻就能过 N1 了。</p>
+<p>好吧我这么正经的人怎么会去翻ben子，然后就想起了这个日文文档的坑，那就开吧。然后当天就用<a href="https://www.gitbook.com/" target="_blank" rel="noopener"><code>gitbook</code></a>搞了一份出来，写了个序，摸了。</p>
+<h1 id="文档的一些选择"><a href="#文档的一些选择" class="headerlink" title="文档的一些选择"></a>文档的一些选择</h1><p>但是过了几天之后我就放弃了<code>gitbook</code>，采用了<a href="https://github.com/rust-lang-nursery/mdBook" target="_blank" rel="noopener"><code>mdbook</code></a>这个工具来写文档，这里稍作解释。主要原因是我不愿意在这件事情想引入一个第三方平台，和许多静态博客一样，源码放在<code>GitHub</code>，构建后的网站放在<code>GitHub Pages</code>上是最简洁的流程。其二是因为我司的环境比较融入<code>rust</code>生态，所以<code>mdbook</code>作为一个<code>cargo</code>包，个人会比较想要用它。</p>
+<p>构建和文本规范检查用的是<a href="https://github.com/features/actions" target="_blank" rel="noopener"><code>GitHub Actions</code></a>，作为<code>GitHub</code>家自产的<code>CI</code>，可以说上手体验是很不错了，如果用第三方<code>CI</code>，部署到<code>gh-pages</code>分支会很头疼，可以参考 <a href="https://github.com/rust-lang/simpleinfra/blob/master/travis-configs/static-websites.yml" target="_blank" rel="noopener">rust-lang/simpleinfra</a>里的<code>travis</code>配置。显然我不是一个<code>travis</code>或是<code>CircleCI</code>专家，所以在这种地方就想要尽可能的简单，所以借助<a href="https://github.com/JamesIves/github-pages-deploy-action" target="_blank" rel="noopener">github-pages-deploy-action</a>这个工具完成了自动部署的工作。</p>
+<h1 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h1><p><code>TiDB</code>目前开发中的版本是<code>4.0.0-alpha</code>，稳定的版本为<code>release-3.0</code>和<code>release-3.1</code>，<code>release-3.1</code>是从<code>release-3.0</code>切出来的，文档还是使用的 3.0 版本。因此，翻译工作也将从 3.0 开始做起。估计等我 3.0 做的差不多了就该 4.0 发布了，所以 2.0 的文档没有填坑计划。</p>
+<p>这个翻译项目在很长一段时间内会作为个人项目进行，在有一定完成度之后会有进入到官方仓库的意向（反正我现在不好意思提到官方仓库去）。</p>
+<p>当然也希望多多收到 PR，有大手来 review 我的翻译就更好了。</p>
+<h1 id="一些插曲"><a href="#一些插曲" class="headerlink" title="一些插曲"></a>一些插曲</h1><p>做这个翻译的过程中逼着自己写日文，也翻了很多日文技术相关的文档，参考措词。俺日本语本当苦手，然而正如大手所言，的确是个学习的好方式。</p>
+<p>此前这个文档项目我只在微博和推上提到过，然后不知道怎么就被公司的大佬发现了，导致坑还没开（刚写完序，实际还没开始翻），就收获了一些<code>star</code>。并且推还被大佬点了个赞，我推上天天转色图应该没翻车吧？</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于开坑"><span class="toc-text">关于开坑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文档的一些选择"><span class="toc-text">文档的一些选择</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#计划"><span class="toc-text">计划</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一些插曲"><span class="toc-text">一些插曲</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+            <a class="prev" href="/2019/10/22/tidb-expression-execflow/">
+                <i class="iconfont icon-left"></i>
+                <span class="prev-text">TiDB表达式执行过程</span>
+            </a>
+        
+        
+            <a class="next" href="/2019/10/06/hello-world/">
+                
+                <span class="prev-text">关于我和博客</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2019
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>

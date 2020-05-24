@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        Chaos Mesh・Kubernetesのカオス上の舞う
+    </div>
+    <p class="sub">Feb 16 2020</p>
+    <div class="post-content">
+        <p>このブログを改善してくれた<a href="https://twitter.com/SSSSSSSHHHHHH4" target="_blank" rel="noopener">genboku</a>さんに感謝しました。</p>
+<hr>
+<p><a href="https://github.com/pingcap/chaos-mesh" target="_blank" rel="noopener"><code>Chaos Mesh</code></a>はカオスエンジニアリングのためのテストツールです。</p>
+<p>コンテナ化されたアプリケーションに対してカオスなテストを行うことができます。</p>
+<p>そして、クラウドネイティブに準じたオープンソースなツールキットです。</p>
+<a id="more"></a>
+
+<h2 id="基礎知識"><a href="#基礎知識" class="headerlink" title="基礎知識"></a>基礎知識</h2><h3 id="カオステストが必要な理由"><a href="#カオステストが必要な理由" class="headerlink" title="カオステストが必要な理由"></a>カオステストが必要な理由</h3><p>カオスはプロダクション環境で頻繁に発生します、マシン障害、ネットワーク障害など。それらの障害=故障に対応するために、多くの試行錯誤を行って来ました。その結果生まれたのがカオステストです。</p>
+<p>単体テストはソースコードのモジュールごとの安定性を保障するために行います。同様にカオステストは 故障時の障害対応を安定して行えることを保証するために 行います。</p>
+<p><a href="https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%BC%E3%83%95%E3%82%A3%E3%83%BC%E3%81%AE%E6%B3%95%E5%89%87" target="_blank" rel="noopener">マーフィーの法則</a>によれば、<strong>「失敗する余地があるなら、失敗します」</strong>。</p>
+<p>システムがより複雑でより規模が大きくなるほど、潜在的なバグも多くなります。プロダクション運用環境と同じサイズの開発環境であったとしてもバグを見逃すことはまだあるでしょう。しかし、コストを節約するために、通常の開発環境は(プロダクション運用環境よりも)小さいです。バグはさらに見つけにくくなります。</p>
+<p>例えばハードドライブが損傷する確率は1時間あたり0.0001％であると仮定しましょう。100台のハードドライブのクラスターが10,000時間実行してようやく1台のハードディスクが破損する可能性がでてきます。しかし、開発環境ではその可能性は非常に低いことはいうまでもありません。</p>
+<p>カオステストはこの障害状況をシミュレートすることです。</p>
+<h3 id="クラウドネイティブな理由"><a href="#クラウドネイティブな理由" class="headerlink" title="クラウドネイティブな理由"></a>クラウドネイティブな理由</h3><h4 id="クラウドネイティブに至った理由"><a href="#クラウドネイティブに至った理由" class="headerlink" title="クラウドネイティブに至った理由"></a>クラウドネイティブに至った理由</h4><p>カオスの実装方法はたくさんあります。時間のカオスをシミュレートするためにシステム時間を調整したり、ネットワークのカオスをシミュレートするために<code>iptables</code>を使用したファイアウォールのセットアップを行ったり…その中で自分の経験からクラウドネイティブを選んだ理由を説明します。</p>
+<p><code>PingCAP</code>では、非常に早い段階でカオステストを開始しました。</p>
+<p>最初は、<code>SSH</code>経由でマシンにカオスを設定していました。</p>
+<p><img src="https://user-images.githubusercontent.com/9587680/74592246-59144200-505a-11ea-8dd5-e6fd9b561e7a.png" alt="sshで構成されたカオス"></p>
+<p>あの時、僕は<code>TiDB</code>用のカオステストツールを作成しました。</p>
+<p><a href="github.com/pingcap/tidb-ansible/"><code>tidb-ansible</code></a> を使用してTiDBをデプロイし、データベースに接続するロードプログラムを実行しながら、さらに同時にカオス操作を実行するツールです。</p>
+<p>大事な問題は、このテストフレームワークにもバグがあることでした。例えば、<code>tidb-ansible</code>を使用した<code>TiDB</code>のデプロイに失敗したり、<code>iptables</code>のルール削除に失敗するなど（そしてそれは次のテストの環境汚染を引き起こします）。</p>
+<p>他にも様々な問題がありました：</p>
+<ul>
+<li>リソース使用率が低い</li>
+<li>問題が発生した場合、プログラムの実行状態を記述するために、次のテストは停止する必要がありました</li>
+<li>ログ収集を行う必要がありました</li>
+<li>複数のクラスターを同時にテストできましたが、新しいクラスタを追加するたびに、テスト環境を手動で構成する必要がありました</li>
+<li>…</li>
+</ul>
+<p>さらに上記の問題に共通する事項として、このテストスイートを使用するためには、多くの場合、手動による介入が必要でした。</p>
+<h4 id="クラウドネイティブのアドバンテージ"><a href="#クラウドネイティブのアドバンテージ" class="headerlink" title="クラウドネイティブのアドバンテージ"></a>クラウドネイティブのアドバンテージ</h4><ul>
+<li><code>Kubernetes</code>はリソースを適切に管理し、テストに標準環境を提供します</li>
+<li><a href="github.com/pingcap/tidb-operator/"><code>TiDB Operator</code></a>は、<code>TiDB</code>クラスタを管理できます</li>
+<li><code>Chaos Mesh</code>、<code>TiDB Operator</code>などのユニットに分割できます</li>
+</ul>
+<h4 id="クラウドネイティブの欠陥"><a href="#クラウドネイティブの欠陥" class="headerlink" title="クラウドネイティブの欠陥"></a>クラウドネイティブの欠陥</h4><ul>
+<li>ある一部の障害のシミュレートできません。例えば、<strong>電源切断</strong>など。</li>
+</ul>
+<h3 id="Chaos-Meshを試す"><a href="#Chaos-Meshを試す" class="headerlink" title="Chaos Meshを試す"></a><code>Chaos Mesh</code>を試す</h3><p>カオスエンジニアリングによるテストがなぜ必要か。</p>
+<p>そしてChaos Meshがどうしてクラウドネイティブな作りをしているのか。</p>
+<p>わかったところで公式ドキュメント：<a href="https://github.com/pingcap/chaos-mesh#deploy-chaos-mesh" target="_blank" rel="noopener">https://github.com/pingcap/chaos-mesh#deploy-chaos-mesh</a>にしたがって、実際に<code>Kubernetes</code>で<code>Chaos Mesh</code>を動かしてみましょう。</p>
+<h4 id="Helm使用して、Chaos-Mesh展開"><a href="#Helm使用して、Chaos-Mesh展開" class="headerlink" title="Helm使用して、Chaos Mesh展開"></a><code>Helm</code>使用して、<code>Chaos Mesh</code>展開</h4><p><code>Helm</code>チャートを取得する</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/pingcap/chaos-mesh.git</span><br><span class="line"><span class="built_in">cd</span> chaos-mesh/</span><br></pre></td></tr></table></figure>
+
+<p>カスタムリソースをインストールする</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f manifests/</span><br><span class="line"><span class="comment"># CRD を確認する</span></span><br><span class="line">kubectl get crd podchaos.pingcap.com</span><br><span class="line">kubectl get crd networkchaos.pingcap.com</span><br><span class="line">kubectl get crd iochaos.pingcap.com</span><br><span class="line">kubectl get crd timechaos.pingcap.com</span><br></pre></td></tr></table></figure>
+
+<p>通常、コンテナランタイムは<code>Docker</code>。もし他のコンテナランタイムを使用している場合はドキュメントを参照してください。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 名前空間を作成する</span></span><br><span class="line">kubectl create ns chaos-testing</span><br><span class="line"><span class="comment"># helm 2.X</span></span><br><span class="line">helm install helm/chaos-mesh --name=chaos-mesh --namespace=chaos-testing</span><br><span class="line"><span class="comment"># helm 3.X</span></span><br><span class="line">helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing</span><br><span class="line"><span class="comment"># Chaos Mesh pods を確認する</span></span><br><span class="line">kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh</span><br></pre></td></tr></table></figure>
+
+<h4 id="テストしてみましょう"><a href="#テストしてみましょう" class="headerlink" title="テストしてみましょう"></a>テストしてみましょう</h4><p>テスト対象のアプリケーションコンテナを実行します。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create ns hello-chaos</span><br><span class="line">kubectl -n hello-chaos create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1</span><br></pre></td></tr></table></figure>
+
+<p>カオスを設定します。</p>
+<p>例：<a href="https://github.com/pingcap/chaos-mesh/blob/master/examples/pod-kill-example.yaml" target="_blank" rel="noopener">https://github.com/pingcap/chaos-mesh/blob/master/examples/pod-kill-example.yaml</a></p>
+<p>hello-chaosネームスペースの<code>app=kubernetes-bootcamp</code>というラベルがついたpodを1分ごとにランダムに一つ終了させます。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">pingcap.com/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PodChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hello-pod-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">pod-kill</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hello-chaos</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">"app":</span> <span class="string">"kubernetes-bootcamp"</span></span><br><span class="line">  <span class="attr">scheduler:</span></span><br><span class="line">    <span class="attr">cron:</span> <span class="string">"@every 1m"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>pod kill</code>を適用して、動作しているか確認します。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pod kill を適用する</span></span><br><span class="line">kubectl apply -f hello-pod-kill.yaml</span><br><span class="line"><span class="comment"># pod 再起動を確認する</span></span><br><span class="line">watch -n 1 kubectl -n hello-chaos get pods</span><br></pre></td></tr></table></figure>
+
+<h2 id="今後の仕事"><a href="#今後の仕事" class="headerlink" title="今後の仕事"></a>今後の仕事</h2><p>現在の<code>Chaos Mesh</code>にはいくつかの欠陥があります。</p>
+<ul>
+<li>カオスの追加は面倒です</li>
+<li>カオスイベントを視覚化できません</li>
+</ul>
+<p>作業効率を向上し、より良い体験を得るために、<code>Chaos Mesh</code>はこれからも将来的に改善し続けます。</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基礎知識"><span class="toc-text">基礎知識</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#カオステストが必要な理由"><span class="toc-text">カオステストが必要な理由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#クラウドネイティブな理由"><span class="toc-text">クラウドネイティブな理由</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#クラウドネイティブに至った理由"><span class="toc-text">クラウドネイティブに至った理由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#クラウドネイティブのアドバンテージ"><span class="toc-text">クラウドネイティブのアドバンテージ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#クラウドネイティブの欠陥"><span class="toc-text">クラウドネイティブの欠陥</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chaos-Meshを試す"><span class="toc-text">Chaos Meshを試す</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Helm使用して、Chaos-Mesh展開"><span class="toc-text">Helm使用して、Chaos Mesh展開</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#テストしてみましょう"><span class="toc-text">テストしてみましょう</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#今後の仕事"><span class="toc-text">今後の仕事</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+                
+                    <a href="/tags/%E6%97%A5%E6%9C%AC%E8%AA%9E/">日本語</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+            <a class="prev" href="/2020/02/23/chaos-mesh-start-note/">
+                <i class="iconfont icon-left"></i>
+                <span class="prev-text">Chaos Mesh Start Note</span>
+            </a>
+        
+        
+            <a class="next" href="/2019/11/02/about-blockchain/">
+                
+                <span class="prev-text">区块链是什么?</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2019
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>

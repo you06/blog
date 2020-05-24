@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        区块链是什么?
+    </div>
+    <p class="sub">Nov 02 2019</p>
+    <div class="post-content">
+        <p>区块链是什么？自从朋友圈被新华社的那篇文章刷屏以来，我想很多人都有这个问题，为此特地写一下这篇文章。此前，对于这个问题，也起过一些争执，所以此处尽可能用客观通俗些话说一说区块链是什么。</p>
+<a id="more"></a>
+
+<p>区块链是某某币（如比特币、以太坊）的必要不充分条件，也就是，要发币，一定有一个区块链在背后支撑，同时并不是所有的区块链都要发币的。</p>
+<p>区块链是基于密码学，分布式存储的一种组合技术，也就是说，区块链能做到的，使用这些基础技术也可以做到，但是大家肯定喜欢打包好的，开箱即用的方案。举个例子，你要出去旅游，本来需要自己订机票、酒店，区块链的用途就像是旅行社的全家桶套餐。</p>
+<h2 id="密码学"><a href="#密码学" class="headerlink" title="密码学"></a>密码学</h2><p>区块链在密码学上所解决的问题，是一个经典的非对称加密问题，考虑以下这个场景。甲向乙发送了一封商业合作的电子邮件，乙收到邮件后非常满意，给甲回复接受甲的提案，并拒绝了其他所有公司的邀约。就快到了项目开始的日子，乙见甲迟迟没有动作，就跑到甲的办公室询问情况，甲像没听说过这回事一般，说乙所收到的邮件根本就不是他发出的。在这个案例中，乙遭受了项目不得不推迟的损失，问题是，这个情况下是否应该由甲来承担乙的损失，以及如何避免这种损失。解决这个问题的关键就是乙能够知道这封邮件是真实的甲所发送的这件事，并且在确认邮件是甲所发的情况下，拿出证据，让甲无法抵赖。非对称加密所解决的就是这个问题，甲手上持有私钥，并公开对应的公钥，甲在发送邮件的同时使用私钥做一份签名摘要一起发送，如果这份签名摘要能够被公开的公钥所验证，说明这封邮件的签名摘要一定是持有私钥的人所做出的。</p>
+<p>上面所提的安利就是一个非堆成加密的使用场景，但如果我说这个所谓的商业合作，是买卖价值20元的晚餐食材，是不是就有了一种小题大做的感觉？就算菜市场老板突然说“我不卖了”，作为消费者换一家店买菜便是。同时需要指出，非对称加密并不能完全解决合同问题，假如这个合同是乙向甲采购价值一百万元的火龙果，乙在确保邮件是甲寄出合同生效的情况下已经将钱打给甲，甲按其交货了价值一百万的白心火龙果。乙看到仓库里的火龙果满心欢喜，赶紧吃一个验验货，切开以后大失所望，原来乙想要的是红心火龙果，遂向甲抱怨道“都9102年了怎么还有人卖白心火龙果？”，后甲乙产生争执。可以看出来在这个案例中，出现问题的原因在于约定的内容不准确，把问题抽象一下呢，就是这个加密技术保证了被签名内容的是可信的，但也仅仅保证了被签名的那一封邮件的可信度而已。</p>
+<h2 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h2><p>和非对称加密不同，分布式存储有许多方案，所以这部分不单独谈，会结合在区块链中的应用来谈。设想一下在上面的情境中，假如甲乙达成了买卖一百万红心火龙果的合同，并且双方都留了对方所签名的邮件当作证据。临近交易的日子，丙找到甲，说愿意以一百二十万元的高价购买甲准备卖给乙的红心火龙果，甲利欲熏心，潜入乙的办公室，破坏了乙的电脑。到了甲乙所约定的交易日，乙带着一百万来提货时，甲对合同的事矢口否认，当以想要以邮件为证据将甲告上法庭时，发现自己的电脑坏了，证据已经不复存在。在这个案例中，乙的权利能否得到维护，在于乙有没有在其他存储设备上备份和甲通信的邮件，如果乙掏出一个有备份邮件的移动硬盘，甲就只能乖乖认账。当然手动备份是分布式存储的一种效率很低的方式，现代的分布式存储有不少成熟的方案，此处不予赘述。</p>
+<p>那么区块链是怎么做分布式存储的呢？他要求所有参与交易的人都存有每一个记录，在上面这个案例中，甲向乙所发送的邮件，同样需要经过丙的认同才能够生效，而邮件的内容，在甲乙丙的电脑上都有存档。也许你已经发现了，在上面这个案例中，丙都和甲勾结起来了，又如何站出来为乙作证？如果这封邮件还经过其他几个商人的验证，并且也存在了他们的电脑上，并且他们中有人充满了正义，愿意站出来为乙作证，这时候甲和丙就只能乖乖认账。</p>
+<p>当然，作为一个成熟的商人，乙在这件事情上不能完全指望别人，他完全可以将所有和甲通信的邮件存储在秘书、会计、财务的电脑上都存储一份，狡兔三窟，任凭甲怎么搞破坏，也别想赖账。</p>
+<p>此时有了两个方案，一是将所有邮件存储在一个商会的所有成员的电脑上，二是自己负责数据的可靠性。此处若再深入对比，就难免要涉及到比较技术性的话题，所以简单的说一些符合直觉的结论。第一种方案，有一个特点就是甲乙通讯的每一封邮件都要经过商会里的所有人确认，就像是老师每说一句话，都得问一下“同学们，听清楚了吗？”，于是交流就变得非常低效了，这就是所谓的昂贵的“信任的代价”，而第二种方案，就得根据自己对数据可靠性的要求程度来做分布式存储，此处不再讨论。</p>
+<h2 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a>区块链</h2><p>至此我们花了如此大的篇幅来讲述<code>密码学</code>和<code>分布式存储</code>这两个东西，那么区块链是什么？其实在分布式存储的例子中，我已经把密码学的应用代入进来了，上文所说的方案一，就是区块链所选择的方案，至于再深入评价，免不了显得立场过于激烈，又怕得罪读者的一些立场，所以剩下的评价就交给读者自己去思考了。</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#密码学"><span class="toc-text">密码学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式存储"><span class="toc-text">分布式存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#区块链"><span class="toc-text">区块链</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+            <a class="prev" href="/2020/02/16/chaos-mesh-start/">
+                <i class="iconfont icon-left"></i>
+                <span class="prev-text">Chaos Mesh・Kubernetesのカオス上の舞う</span>
+            </a>
+        
+        
+            <a class="next" href="/2019/10/22/tidb-expression-execflow/">
+                
+                <span class="prev-text">TiDB表达式执行过程</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2019
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>
