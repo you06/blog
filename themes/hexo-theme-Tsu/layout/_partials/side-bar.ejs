@@ -1,0 +1,29 @@
+<div class="side-bar">
+
+
+    <div class="avator" id="avator">
+    <div class="title">
+        <a href="#" class="text-underline">About Me</a>
+    </div>
+        <img src="<%= theme.avator %>" class="ava-img">
+        <h3 class="author"><%= config.author %></h3>
+        <div class="icon-list">
+        <% if (theme.weibo){ %>
+            <a href="<%= theme.weibo %>"><i class="iconfont icon-weibo icon-item"></i></a>
+        <% } %>
+        <% if (theme.email){ %>
+            <a href="<%= theme.email %>"><i class="iconfont icon-email icon-item"></i></a>
+        <% } %>
+        <% if (theme.github){ %>
+            <a href="<%= theme.github %>"><i class="iconfont icon-github icon-item"></i></a>
+        <% } %>
+        <% if (theme.linkedin){ %>
+            <a href="<%= theme.linkedin %>"><i class="iconfont icon-linkedin icon-item"></i></a>
+        <% } %>
+        <% if (theme.twitter){ %>
+            <a href="<%= theme.twitter %>"><i class="iconfont icon-twitter icon-item"></i></a>
+        <% } %>
+        </div>
+    <%- partial('_partials/tags') %>
+    </div>
+</div>
