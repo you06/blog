@@ -5,15 +5,11 @@ node_js:
   - 12
 cache: npm
 
-before_install:
-  - npm install -g hexo
-
 before_script:
   - npm install
-  - export PATH=$(npm bin):$PATH
 
 script:
-  - hexo generate
+  - npm run build
   - cp CNAME public/CNAME
 
 deploy:
@@ -21,6 +17,6 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
   keep_history: true
-  local_dir: _book
+  local_dir: public
   on:
     branch: master
