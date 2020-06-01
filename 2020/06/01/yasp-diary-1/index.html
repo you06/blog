@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+    <meta name="generator" content="Hexo 4.2.1"></head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="#" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        yasp 开发日记【1】
+    </div>
+    <p class="sub">Jun 01 2020</p>
+    <div class="post-content">
+        <p><a href="https://github.com/Airyworks/yasp" target="_blank" rel="noopener"><code>yasp</code></a>(Yet Another SQL Parser) 是一个<code>SQL</code>解析工具，此前我用<a href="https://github.com/pingcap/parser" target="_blank" rel="noopener"><code>TiDB Parser</code></a> 用得很爽，但是用<code>TiDB Parser</code>写测试工具存在一个固有问题是测试工具嫖了被测对象的代码是不合理的。本着严谨科学（和主要是喜欢造轮子）的态度，开了个<code>SQL Parser</code>（下简称<code>Parser</code>）的坑。</p>
+<p>起初我打算用<a href="https://github.com/lalrpop/lalrpop" target="_blank" rel="noopener"><code>lalrpop</code></a>一把梭，词法语法一起做了，但是这玩意的词法分析有个小坑是正则匹配不能冲突，以<code>SELECT</code>语句的解析为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Comma&lt;T&gt;: Vec&lt;T&gt; &#x3D; &#123;</span><br><span class="line">    &lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; &#x3D;&gt; match e &#123;</span><br><span class="line">        None&#x3D;&gt; v,</span><br><span class="line">        Some(e) &#x3D;&gt; &#123;</span><br><span class="line">            v.push(e);</span><br><span class="line">            v</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Name: CIStr &#x3D; r&quot;[0-9a-zA-Z_]+&quot; &#x3D;&gt; &lt;&gt;.into();</span><br><span class="line"></span><br><span class="line">pub Fields &#x3D; Comma&lt;Field&gt;;</span><br><span class="line"></span><br><span class="line">pub Field: Field &#x3D; &#123;</span><br><span class="line">    &quot;*&quot; &#x3D;&gt; Field::new_all(),</span><br><span class="line">    Name &#x3D;&gt; Field::new_column(&lt;&gt;),</span><br><span class="line">    &lt;table: Name&gt;&quot;.&quot;&lt;column: Name&gt; &#x3D;&gt; Field::new_column(column).with_table(table),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ResultTable &#x3D; Name;</span><br><span class="line"></span><br><span class="line">pub Expr: Expr &#x3D; &#123;</span><br><span class="line">    &quot;select&quot; &lt;fields: Fields&gt; &quot;from&quot; &lt;result_table: ResultTable&gt; &#x3D;&gt; Expr::Select(SelectNode&#123;</span><br><span class="line">        fields,</span><br><span class="line">        result_table,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<details>
+<summary>完整代码</summary>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">use crate::ast::&#123;</span><br><span class="line">    dml::*,</span><br><span class="line">    expr::*,</span><br><span class="line">    model::*</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">grammar;</span><br><span class="line"></span><br><span class="line">Comma&lt;T&gt;: Vec&lt;T&gt; &#x3D; &#123;</span><br><span class="line">    &lt;mut v:(&lt;T&gt; &quot;,&quot;)*&gt; &lt;e:T?&gt; &#x3D;&gt; match e &#123;</span><br><span class="line">        None&#x3D;&gt; v,</span><br><span class="line">        Some(e) &#x3D;&gt; &#123;</span><br><span class="line">            v.push(e);</span><br><span class="line">            v</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Semicolon&lt;T&gt;: Vec&lt;T&gt; &#x3D; &#123;</span><br><span class="line">    &lt;mut v:(&lt;T&gt; &quot;;&quot;)*&gt; &lt;e:T?&gt; &#x3D;&gt; match e &#123;</span><br><span class="line">        None&#x3D;&gt; v,</span><br><span class="line">        Some(e) &#x3D;&gt; &#123;</span><br><span class="line">            v.push(e);</span><br><span class="line">            v</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">pub Exprs &#x3D; Semicolon&lt;Expr&gt;;</span><br><span class="line"></span><br><span class="line">pub Expr: Expr &#x3D; &#123;</span><br><span class="line">    &quot;select&quot; &lt;fields: Fields&gt; &quot;from&quot; &lt;result_table: ResultTable&gt; &#x3D;&gt; Expr::Select(SelectNode&#123;</span><br><span class="line">        fields,</span><br><span class="line">        result_table,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Name: CIStr &#x3D; r&quot;[0-9a-zA-Z_]+&quot; &#x3D;&gt; &lt;&gt;.into();</span><br><span class="line"></span><br><span class="line">pub Fields &#x3D; Comma&lt;Field&gt;;</span><br><span class="line"></span><br><span class="line">pub Field: Field &#x3D; &#123;</span><br><span class="line">    &quot;*&quot; &#x3D;&gt; Field::new_all(),</span><br><span class="line">    Name &#x3D;&gt; Field::new_column(&lt;&gt;),</span><br><span class="line">    &lt;table: Name&gt;&quot;.&quot;&lt;column: Name&gt; &#x3D;&gt; Field::new_column(column).with_table(table),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ResultTable &#x3D; Name;</span><br></pre></td></tr></table></figure>
+</details>
+
+<p>这是一个简单<code>SELECT</code>语句的语法分析，从上往下看。</p>
+<ul>
+<li><code>Comma</code>模板用于处理被逗号分隔的不定长项</li>
+<li><code>Name</code>是一个匹配自定义字段名称的符号</li>
+<li><code>Field</code>分析了<code>*</code>，<code>column</code>，<code>table.column</code>这三种情况</li>
+<li><code>Fields</code>分析<code>SELECT</code>的多个目标字段</li>
+<li><code>Expr</code>是一个简单的<code>SELECT</code>语法构成</li>
+</ul>
+<p>这段代码的问题在于，<code>Expr</code>内部的<code>select</code>和<code>from</code>是固定关键词匹配，而<code>SQL</code>是一个关键词兼容大小写的语言，所以我们需要将其改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pub Expr: Expr &#x3D; &#123;</span><br><span class="line">    r&quot;(?i)select&quot; &lt;fields: Fields&gt; r&quot;(?i)from&quot; &lt;result_table: ResultTable&gt; &#x3D;&gt; Expr::Select(SelectNode&#123;</span><br><span class="line">        fields,</span><br><span class="line">        result_table,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过正则来匹配大小写的形式，看起来不错，但是编译却报错了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">~/workspace/rust/yasp(refactor*) » cargo <span class="built_in">test</span></span><br><span class="line">   Compiling yasp v0.1.0 (/home/you06/workspace/rust/yasp)</span><br><span class="line">error: failed to run custom build <span class="built_in">command</span> <span class="keyword">for</span> `yasp v0.1.0 (/home/you06/workspace/rust/yasp)`</span><br><span class="line"></span><br><span class="line">Caused by:</span><br><span class="line">  process didn<span class="string">'t exit successfully: `/home/you06/workspace/rust/yasp/target/debug/build/yasp-01bf64e1e5e0f353/build-script-build` (exit code: 1)</span></span><br><span class="line"><span class="string">--- stdout</span></span><br><span class="line"><span class="string">processing file `/home/you06/workspace/rust/yasp/src/grammar.lalrpop`</span></span><br><span class="line"><span class="string">/home/you06/workspace/rust/yasp/src/grammar.lalrpop:46:15: 46:30 error: ambiguity detected between the terminal `r#"[0-9a-zA-Z_]+"#` and the terminal `r#"(?i)from"#`</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">--- stderr</span></span><br><span class="line"><span class="string">  Name: CIStr = r"[0-9a-zA-Z_]+" =&gt; &lt;&gt;.into();</span></span><br></pre></td></tr></table></figure>
+
+<p>报错的原因是<code>select</code>和<code>from</code>既能够满足我们所期望的<code>Expr</code>的语法，也能够满足<code>Field</code>的语法，所以<code>lalrpop</code>不知道它属于那一个符号。在<code>SQL</code>语言里，是不能够将例如<code>select</code>，<code>from</code>这种关键词作为表名和字段名来使用的。对于固定的字符串，<code>lalrpop</code>会将它置于比正则匹配更高的优先级，所以纯小写的<code>SQL</code>能够被解析，但如果有多个正则表达式，他们之前将无法区分优先级（也无法做优先级标注），这造成了直接解析的失败。</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+        
+            <a class="next" href="/2020/04/23/cherry-bot/">
+                
+                <span class="prev-text">Cherry Bot</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  
+  <div>
+      <img src="/assets/by-nc.svg">
+  </div="text">
+  
+
+  <div class="text">Powered By
+    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2020
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</html>
