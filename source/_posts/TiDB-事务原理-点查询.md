@@ -22,7 +22,7 @@ select * from point where id = 1;
 select * from point where c = 2 and d = 'b';
 ```
 
-在完成建表和插入数据后，我们进行了三个查询，其中第一条`SQL`可以通过在主键`id`的等于条件查询条件知道最多有一条结果；第二条`SQL`可以通过`c`和`d`的等于查询条件结合`unique c_d (c, d)`的约束知道最多有一条结果；第三条`SQL`和第一条一样。然而在实际执行时，还需要考虑许多情况。
+在完成建表和插入数据后，我们进行了两个查询，其中第一条`SQL`可以通过在主键`id`的等于条件查询条件知道最多有一条结果；第二条`SQL`可以通过`c`和`d`的等于查询条件结合`unique c_d (c, d)`的约束知道最多有一条结果。然而在实际执行时，还需要考虑许多情况。
 
 ## 执行过程
 
@@ -79,11 +79,11 @@ var (
 )
 ```
 
-那么很容易理解，`recordPrefixSep`就是要查询记录，而`indexPrefixSep`是要查询索引，回到上面，`select * from point where c = 2 and d = 'b'`这条`SQL`要经过两次查询，第一次通过`unique`索引查询到主键索引，第二次再通过主键索引查询记录值。
+那么很容易理解，`recordPrefixSep`是要查询记录，而`indexPrefixSep`是要查询索引，回到上面，`select * from point where c = 2 and d = 'b'`这条`SQL`要经过两次查询，第一次通过`unique`索引查询到主键索引，第二次再通过主键索引查询记录值。
 
 #### 第二段
 
-根据刚才的分析，`8000000000000001`很容易理解，指的就是索引的值（这里是`id`列），这里不再分析。
+根据刚才的分析，`8000000000000001`很容易理解，指的就是索引（这里是`id`列）的值。
 
 `8000000000000001 038000000000000002 016200000000000000 f8`是一条对索引进行查询的`key`的值。
 
@@ -105,7 +105,7 @@ var (
 ```Rust
 /// Checks whether the lock conflicts with the given `ts`. If `ts == TimeStamp::max()`, the primary lock will be ignored.
 pub fn check_ts_conflict(self, key: &Key, ts: TimeStamp, bypass_locks: &TsSet) -> Result<()> {
-	// 1. 锁的 ts 大于 snapshot 的 ts，显然应该忽略这把锁
+    // 1. 锁的 ts 大于 snapshot 的 ts，显然应该忽略这把锁
     // 2. 锁有四种类型 Put, Delete, Lock, Pessimistic，后两种和数据无关，忽略
     if self.ts > ts
         || self.lock_type == LockType::Lock
