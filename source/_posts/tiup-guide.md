@@ -55,12 +55,12 @@ tidb quit
 认真看官方文档的小伙伴，应该不用来这里抄命令了。
 
 ```sh
-» tiup cluster deploy cluster-name nightly topology.yaml
+» tiup cluster deploy ntr nightly topology.yaml
 » tiup cluster list
 Name          User  Version  Path                                                      PrivateKey
 ----          ----  -------  ----                                                      ----------
-amend-down    tidb  v4.0.7   /home/tidb/.tiup/storage/cluster/clusters/cluster-name    ...
-» tiup cluster start cluster-name
+ntr           tidb  v4.0.7   /home/tidb/.tiup/storage/cluster/clusters/ntr    ...
+» tiup cluster start ntr
 ```
 
 ### 3. patch
@@ -68,9 +68,9 @@ amend-down    tidb  v4.0.7   /home/tidb/.tiup/storage/cluster/clusters/cluster-n
 有的时候想要测试自己编译的组件，`TiUP`提供了`patch`命令，但是大家非常容易翻一个常见错误，以`TiDB`为例：
 
 ```sh
-» tiup cluster patch my-cluster tidb-server -R tidb
+» tiup cluster patch ntr tidb-server -R tidb
 ...
-Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster patch my-cluster tidb-server -R tidb
+Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster patch ntr tidb-server -R tidb
 
 Error: exit status 2
 
@@ -82,5 +82,5 @@ Error: run `/home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster` (wd:/home/y
 
 ```sh
 tar czf tidb-server.tar.gz tidb-server
-tiup cluster patch my-cluster tidb-server -R tidb
+tiup cluster patch ntr tidb-server -R tidb
 ```
