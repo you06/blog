@@ -81,6 +81,6 @@ Error: run `/home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster` (wd:/home/y
 因为根据 DBA 的使用习惯，一般想要直接使用下载下来的 tar 包，所以 patch 命令所指定的文件也需要是一个 tar 包（快兼容一下啊(╯‵□′)╯︵┻━┻）。
 
 ```sh
-tar xzf tidb-server.tar.gz tidb-server
+tar czf tidb-server.tar.gz tidb-server
 tiup cluster patch my-cluster tidb-server -R tidb
 ```
