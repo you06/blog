@@ -59,7 +59,7 @@ tidb quit
 » tiup cluster list
 Name          User  Version  Path                                                      PrivateKey
 ----          ----  -------  ----                                                      ----------
-ntr           tidb  v4.0.7   /home/tidb/.tiup/storage/cluster/clusters/ntr    ...
+ntr           tidb  nightly  /home/tidb/.tiup/storage/cluster/clusters/ntr    ...
 » tiup cluster start ntr
 ```
 
