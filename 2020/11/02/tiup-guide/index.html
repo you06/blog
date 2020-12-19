@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/styles/main.css">
 
 
-    <meta name="generator" content="Hexo 4.2.1"></head>
+    <meta name="generator" content="Hexo 5.3.0"></head>
     <body>
         <div class="container">
             <header>
@@ -53,24 +53,18 @@
 <h2 id="TiDB-Playground"><a href="#TiDB-Playground" class="headerlink" title="TiDB Playground"></a>TiDB Playground</h2><p>回想起当时做小作业的时候，为了起一个<code>TiDB</code>集群，不管是用<code>TiDB</code>的<code>Ansible</code>还是<code>Docker Compose</code>都对我这个萌新（和低配 Mac）非常不友好，直到<code>TiUP</code>问世。</p>
 <p>从<code>TiUP Playground</code>最基本的使用方式说起，不加任何参数启动<code>Playground</code>，会看到以下结果。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">» tiup playground</span><br><span class="line">...</span><br><span class="line">Start tiflash instance</span><br><span class="line">...</span><br><span class="line">CLUSTER START SUCCESSFULLY, Enjoy it ^-^</span><br><span class="line">To connect TiDB: mysql --host 127.0.0.1 --port 37257 -u root</span><br><span class="line">To view the dashboard: http://127.0.0.1:2379/dashboard</span><br><span class="line">To view the Prometheus: http://127.0.0.1:9090</span><br><span class="line">To view the Grafana: http://127.0.0.1:3000</span><br></pre></td></tr></table></figure>
-
 <p>其实我起<code>Playground</code>大部分时候只是想做一些功能性测试，并不希望看到<code>Prometheus</code>和<code>Grafana</code>以及<code>tiflash</code>，所以我常用的命令是：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tiup playground --tiflash=0 --monitor=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
 <p>在使用<code>Ctrl + C</code>发送<code>SIGINT</code>时，会看到<code>TiUP</code>进程卡在了这样一个状态，正在等待某某某进程退出，然后下一个，到全部退出可能要花费十多秒的时间，主要是等待<code>TiDB</code>退出的时间特别长，以及<code>TiUP</code>会删除掉<code>TiDB</code>集群所生成的文件。使用<code>Ctrl + C</code>发送第二个<code>SIGINT</code>信号会让<code>Playground</code>和它所拉起来的进程强制退出（<code>SIGKILL</code>）。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">^CPlayground receive signal:  interrupt</span><br><span class="line">Got signal interrupt (Component: playground ; PID: 6355)</span><br><span class="line">Wait pd(6377) to quit...</span><br><span class="line">pd quit</span><br><span class="line">Wait tikv(6383) to quit...</span><br><span class="line">tikv quit</span><br><span class="line">Wait tidb(6385) to quit...</span><br><span class="line">tidb quit</span><br></pre></td></tr></table></figure>
-
-<h2 id="TiDB-Cluster"><a href="#TiDB-Cluster" class="headerlink" title="TiDB Cluster"></a>TiDB Cluster</h2><p>如果要起一个生产环境用的集群，需要使用<code>TiDB Cluster</code>这个组件，当然我不是专业的DBA，也没有在生产环境实践过，这里所说的，是一个程序员启动一个开发用集群的实践。主要流程请参考<a href="https://docs.pingcap.com/zh/tidb/stable/tiup-cluster" target="_blank" rel="noopener">官方文档</a>，本文只写自己遇到的坑。</p>
-<h3 id="1-编辑拓扑文件"><a href="#1-编辑拓扑文件" class="headerlink" title="1. 编辑拓扑文件"></a>1. 编辑拓扑文件</h3><p>最初写<code>TiUP</code>的拓扑文件，因为找不到文档，所以对着代码里的结构体定义在写，写的十分痛苦，建议直接抄 example： <a href="https://github.com/pingcap/tiup/blob/master/examples/topology.example.yaml" target="_blank" rel="noopener">https://github.com/pingcap/tiup/blob/master/examples/topology.example.yaml</a> 。</p>
+<h2 id="TiDB-Cluster"><a href="#TiDB-Cluster" class="headerlink" title="TiDB Cluster"></a>TiDB Cluster</h2><p>如果要起一个生产环境用的集群，需要使用<code>TiDB Cluster</code>这个组件，当然我不是专业的DBA，也没有在生产环境实践过，这里所说的，是一个程序员启动一个开发用集群的实践。主要流程请参考<a target="_blank" rel="noopener" href="https://docs.pingcap.com/zh/tidb/stable/tiup-cluster">官方文档</a>，本文只写自己遇到的坑。</p>
+<h3 id="1-编辑拓扑文件"><a href="#1-编辑拓扑文件" class="headerlink" title="1. 编辑拓扑文件"></a>1. 编辑拓扑文件</h3><p>最初写<code>TiUP</code>的拓扑文件，因为找不到文档，所以对着代码里的结构体定义在写，写的十分痛苦，建议直接抄 example： <a target="_blank" rel="noopener" href="https://github.com/pingcap/tiup/blob/master/examples/topology.example.yaml">https://github.com/pingcap/tiup/blob/master/examples/topology.example.yaml</a> 。</p>
 <h3 id="2-部署启动集群"><a href="#2-部署启动集群" class="headerlink" title="2. 部署启动集群"></a>2. 部署启动集群</h3><p>认真看官方文档的小伙伴，应该不用来这里抄命令了。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">» tiup cluster deploy ntr nightly topology.yaml</span><br><span class="line">» tiup cluster list</span><br><span class="line">Name          User  Version  Path                                                      PrivateKey</span><br><span class="line">----          ----  -------  ----                                                      ----------</span><br><span class="line">ntr           tidb  nightly  /home/tidb/.tiup/storage/cluster/clusters/ntr             ...</span><br><span class="line">» tiup cluster start ntr</span><br></pre></td></tr></table></figure>
-
 <h3 id="3-patch"><a href="#3-patch" class="headerlink" title="3. patch"></a>3. patch</h3><p>有的时候想要测试自己编译的组件，<code>TiUP</code>提供了<code>patch</code>命令，但是大家非常容易翻一个常见错误，以<code>TiDB</code>为例：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">» tiup cluster patch ntr tidb-server -R tidb</span><br><span class="line">...</span><br><span class="line">Starting component `cluster`: /home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster patch ntr tidb-server -R tidb</span><br><span class="line"></span><br><span class="line">Error: <span class="built_in">exit</span> status 2</span><br><span class="line"></span><br><span class="line">Verbose debug logs has been written to /home/tidb/tiup/logs/tiup-cluster-debug-2077-11-04-05-14-00.log.</span><br><span class="line">Error: run `/home/tidb/.tiup/components/cluster/v1.2.0/tiup-cluster` (wd:/home/you06/.tiup/data/SFC8xCY) failed: <span class="built_in">exit</span> status 1</span><br></pre></td></tr></table></figure>
-
 <p>因为根据 DBA 的使用习惯，一般想要直接使用下载下来的 tar 包，所以 patch 命令所指定的文件也需要是一个 tar 包（快兼容一下啊(╯‵□′)╯︵┻━┻）。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar czf tidb-server.tar.gz tidb-server</span><br><span class="line">tiup cluster patch ntr tidb-server -R tidb</span><br></pre></td></tr></table></figure>
-
     </div>
     </article>
 </div>
@@ -80,7 +74,7 @@
         Contents
         </strong>
         <div class="toc-content">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TiDB-Playground"><span class="toc-text">TiDB Playground</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TiDB-Cluster"><span class="toc-text">TiDB Cluster</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-编辑拓扑文件"><span class="toc-text">1. 编辑拓扑文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-部署启动集群"><span class="toc-text">2. 部署启动集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-patch"><span class="toc-text">3. patch</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TiDB-Playground"><span class="toc-text">TiDB Playground</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TiDB-Cluster"><span class="toc-text">TiDB Cluster</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%BC%96%E8%BE%91%E6%8B%93%E6%89%91%E6%96%87%E4%BB%B6"><span class="toc-text">1. 编辑拓扑文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%83%A8%E7%BD%B2%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-text">2. 部署启动集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-patch"><span class="toc-text">3. patch</span></a></li></ol></li></ol>
         </div>
     </div>
 
@@ -123,7 +117,7 @@
   
 
   <div class="text">Powered By
-    <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> | Theme <a href="https://github.com/zjx137/hexo-theme-Tsu" target="_blank" rel="noopener">Tsu</a> &copy 2020
+    <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/zjx137/hexo-theme-Tsu">Tsu</a> &copy 2020
   </div>
 </div>
 
