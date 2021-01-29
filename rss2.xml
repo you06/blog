@@ -15,8 +15,33 @@
     <atom:link href="http://yoursite.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>you06&#39;s blog &amp; everything</description>
-    <pubDate>Thu, 28 Jan 2021 10:06:19 GMT</pubDate>
+    <pubDate>Fri, 29 Jan 2021 12:43:43 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Review「WILL: A Wonderful World」</title>
+      <link>http://yoursite.com/2021/01/29/review-will-a-wonderful-world/</link>
+      <guid>http://yoursite.com/2021/01/29/review-will-a-wonderful-world/</guid>
+      <pubDate>Fri, 29 Jan 2021 20:07:00 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
+          
+        
+      
+      
+      
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul><li>steam: <a href="https://store.steampowered.com/app/588040/WILL_A_Wonderful_World__WILL/">https://store.steampowered.com/app/588040/WILL_A_Wonderful_World__WILL/</a></li></ul><p>游戏时长大约 10h 多一些，我很喜欢的游戏风格，通过上帝视角观察一个故事，和《十三机兵防卫圈》的叙事手法有点相似，而游戏方式非常有创意。</p><h2 id="整体评价"><a href="#整体评价" class="headerlink" title="整体评价"></a>整体评价</h2><p>优点</p><ul><li>剧情非常有趣，比国产半吊子 gal 和日本废萌强太多</li><li>游戏形式新颖，关卡设计巧妙</li><li>文字的表达能力极强</li></ul><p>缺点</p><ul><li>部分关卡设计有些不明确，以至于我不得不靠穷举法来过关</li><li>角色对话没有 log</li><li>立绘再多点就好了。虽然已经很多了，但文字量也着实不小，很多章节还是纯文字的</li></ul><h2 id="我的一些个人意见"><a href="#我的一些个人意见" class="headerlink" title="我的一些个人意见"></a>我的一些个人意见</h2><p>游戏内角色之间的交互多以文字关系而非逻辑关系为主，结果是角色之间的关联性不强，所有的登场角色没有行成一个整体。没有整体性给游戏后期带来的影响就是不能通过所有角色都登场的情节设计来叙事，导致但看某一个角色的剧情都不长，意犹未尽。</p><p>因为是基于文字的，像“门开了”这种词汇，可能会有多义，可以是指房间门，也可以是指箱子。通过文字逻辑的排列来改变语言想要表达的思想，很好玩的游戏设计。但是关卡设计质量不一，有些关卡我直接穷举。</p><p>音乐我觉得挺好的，但没有出现像「Seaside Vacation」这种游戏气氛代入感经验的音乐，但毕竟是独立游戏，目前的质量已经很强了。</p><p>我是用手柄玩的，在模拟鼠标操作的时候，游戏有小 bug，除此之外，手柄的游戏体验很好。</p><p>玩游戏的时候手边没有咖啡 :(</p><p>这个游戏所展现出来的故事，不是喜剧、也不是悲剧，大概是喜中有一些物哀的成分，游戏中有的角色的悲剧是不可避免的，即使是「神」在改写命运，亦有生离死别。只是如果没有玩家扮演的“神”，这些人原本的命运可能就是错过自己所追寻的东西罢了。</p><p>总评分 8.5/10。</p>]]></content:encoded>
+      
+      
+      
+      
+      <comments>http://yoursite.com/2021/01/29/review-will-a-wonderful-world/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>「罗素悖论」、自然语言和 void*</title>
@@ -84,7 +109,7 @@
       
       
       
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-NxlUdPvm" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-NxlUdPvm"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-kTQePyKO" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-kTQePyKO"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
       
       
       
