@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://blog.tongmu.me
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -112,7 +112,7 @@ feed:
     - atom.xml
     - rss2.xml
   limit: 20
-  hub:
+  hub: https://blog.tongmu.me
   content: true
   content_limit: 140
   content_limit_delim: ' '
