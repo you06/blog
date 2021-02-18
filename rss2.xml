@@ -15,8 +15,33 @@
     <atom:link href="https://blog.tongmu.me/rss2.xml" rel="self" type="application/rss+xml"/>
     <atom:link href="https://blog.tongmu.me/" rel="hub"/>
     <description>you06&#39;s blog &amp; everything</description>
-    <pubDate>Wed, 10 Feb 2021 17:02:35 GMT</pubDate>
+    <pubDate>Thu, 18 Feb 2021 12:08:08 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>我为什么开始摄影</title>
+      <link>https://blog.tongmu.me/2021/02/18/as-a-photographer-beginner/</link>
+      <guid>https://blog.tongmu.me/2021/02/18/as-a-photographer-beginner/</guid>
+      <pubDate>Thu, 18 Feb 2021 19:39:13 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
+          
+        
+      
+      
+      
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这个过年，我购置了相机，学习了摄影的一些基础技术，准备培养一项业余爱好，这篇博客稍微聊一下我对于摄影的看法以及开始摄影的动机。</p><p>社团的同学一直有爱好摄影的，我之前没有参与的原因有两个：</p><ul><li>没钱</li><li>我相信眼睛看到的东西。在出门游玩的时候，甚至很少用手机拍照，当时我的看法是“将美留于心中”，所以把拍照的心思都用来欣赏风景了。</li></ul><p>因为社团里其实有很多器材，基础的摄影和摄像都能满足，所以第二点是主要的原因。</p><p>开始摄影当然是因为之前对其的看法有了变化，在我的生活中，不管是写博客、写代码，都属于一种创作。近年来发现自己的创作欲和动力都有所提升，这是个很好的变化，光看书不写笔记容易走马观花，而最重要的，我很懒，需要用一些任务来 push 自己，不然就容易陷入什么都不做，时间流走之后发现自己很空虚的困境。2020 一年里，关于各方面的事，我写了十多篇博客，2021 一定会更多。当然个人有购置相机的能力这一点也是很关键的。</p><p>相比于音乐演奏、绘画、各类设计，摄影作为一种<strong>创作</strong>的门槛要低得多，而且并没有明显的对错，只要画面没有明显的诟病之处，可以说每个人拍出来的照片，都是不一样的，都是属于个人的创作，并无明显的好坏之分。当然如果能力和时间允许，我很愿意学习乐器，至今都有用小提琴演奏「<a href="https://zh.wikipedia.org/wiki/G%E5%BC%A6%E4%B8%8A%E7%9A%84%E5%92%8F%E5%8F%B9%E8%B0%83">Air on the G String</a>」的愿望。</p><p>要拍摄什么样的照片，这个问题因人而异，对我而言，在这个初学阶段，因为正好人在老家，所以尝试拍摄了一些「回忆」，很多小时候经常去的地方，现在已经改变了模样，但身临其境的时候，还是能够构想出带有童年幻想色彩的画面。</p><p>另一个重要的原因是，我想留下回忆，我的眼睛所见到的许多画面，经常在梦中如跑马灯似的略过。但即使记忆再牢固，细节之处也会受到损害，虽然遗忘能带来新的遐想，在个人的脑海中产生新的美，但多一张照片总是不错的选择。</p><p>最后一点是，我不喜欢做无意义的事情，这也导致过多的时间宅在家里，摄影多少能让我多出门走走。十分感谢同为索狗，教了我不少摄影入门知识，并且让我白嫖镜头的 Tari 同学。</p>]]></content:encoded>
+      
+      
+      
+      
+      <comments>https://blog.tongmu.me/2021/02/18/as-a-photographer-beginner/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>确定性数据库发展史</title>
@@ -134,7 +159,7 @@
       
       
       
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-djazMstk" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-djazMstk"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-TRopOHOx" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-TRopOHOx"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
       
       
       
@@ -483,31 +508,6 @@
       
       
       <comments>https://blog.tongmu.me/2019/10/15/about-tidb-jp-doc/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>关于我和博客</title>
-      <link>https://blog.tongmu.me/2019/10/06/hello-world/</link>
-      <guid>https://blog.tongmu.me/2019/10/06/hello-world/</guid>
-      <pubDate>Sun, 06 Oct 2019 11:15:00 GMT</pubDate>
-      
-        
-        
-          
-          
-      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
-          
-        
-      
-      
-      
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h1><p>几年前曾经做过一个<a href="https://github.com/you06/maple-blog">个人博客</a>，现在看起来代码比较简陋，所以决定推翻重写。</p><p>新的博客叫 <a href="https://github.com/you06/cosmos-blog">cosmos-blog</a>，是一个使用 <code>nuxt</code> 搭建的博客，选择 <code>nuxt</code> 的原因是能够同时满足以下几点：</p><ul><li>本人对 <code>Vue</code> 比较熟悉，没有学习成本</li><li>服务端能够将 markdown 渲染成 html，我不想让博客源文件能被直接拿到</li><li><code>SSR</code> 的支持</li></ul><p>这个博客也将作为一个长期维护项目，在写的过程中也发现了 <code>nuxt</code> 这个框架以及一些模块的坑，也会借着维护这个博客的机会去尝试为社区做一些贡献。</p><h1 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h1><p>读研中，同时 <code>PingCAP</code> 实习，目前以及之后一段时间内的兴趣范围会在一些 <code>golang</code> 和 <code>rust</code> 开发的范围内做一些研究。</p><p>日语学习中，目标明年7月 N1，<code>TiDB</code> 的日文文档翻译的目的之一就是为了激励自己达成这个目标。</p><p>喜欢游戏，动漫，是二次元。下落式音游，<code>osu! mania</code> 玩的多，<a href="https://osu.ppy.sh/users/4669409">个人页面</a>。柚子八月双厨，最喜欢的公司是枕社。手游目前玩明日方舟和公主连接（台一）。</p><p>有空也会读书，读书兴趣广泛，眼光挑剔，有所感想也会在博客里谈一谈。</p><h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>这个博客里写的东西会很多，只要是我想写的，想说的，都可能会在这里发表，包括但不限于：</p><ul><li>作为业余者的网页开发杂谈</li><li><code>TiDB</code>, <code>TiKV</code> 的各种讨论文</li><li><code>TiDB</code> 的日文文档翻译</li><li>动画/游戏的感想</li><li>日记</li><li>读书感想</li></ul><p>除去一些说不得的东西，我认为个人博客是一个想说什么说什么的地方，观点有很强的个人色彩，或许偏激。如果作者的一些愚见让你看的不舒服了，不要因此不开心，如果有想要讨论的东西，也欢迎给我发邮件。</p>]]></content:encoded>
-      
-      
-      
-      
-      <comments>https://blog.tongmu.me/2019/10/06/hello-world/#disqus_thread</comments>
       
     </item>
     
