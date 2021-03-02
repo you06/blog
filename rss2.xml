@@ -15,8 +15,35 @@
     <atom:link href="https://blog.tongmu.me/rss2.xml" rel="self" type="application/rss+xml"/>
     <atom:link href="https://blog.tongmu.me/" rel="hub"/>
     <description>you06&#39;s blog &amp; everything</description>
-    <pubDate>Thu, 18 Feb 2021 12:08:08 GMT</pubDate>
+    <pubDate>Tue, 02 Mar 2021 12:23:23 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>西安交大 - 春</title>
+      <link>https://blog.tongmu.me/2021/03/02/photo-2021-03-02/</link>
+      <guid>https://blog.tongmu.me/2021/03/02/photo-2021-03-02/</guid>
+      <pubDate>Tue, 02 Mar 2021 12:40:00 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
+          
+        
+      
+      
+      
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>关于花的照片。</p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00137.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00143.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00151.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00168.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00171.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00176.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00190.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00191.jpg"></p><p><img src="https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-03/DSC00192.jpg"></p><p>评价：特写还行，风景找不到主体。</p>]]></content:encoded>
+      
+      
+      
+      <category domain="https://blog.tongmu.me/tags/%E6%91%84%E5%BD%B1/">摄影</category>
+      
+      
+      <comments>https://blog.tongmu.me/2021/03/02/photo-2021-03-02/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>我为什么开始摄影</title>
@@ -159,7 +186,7 @@
       
       
       
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-TRopOHOx" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-TRopOHOx"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script>        <div id="aplayer-XOUAqdsa" class="aplayer aplayer-tag-marker" style="margin-bottom: 20px;">            <pre class="aplayer-lrc-content"></pre>        </div>        <script>          var ap = new APlayer({            element: document.getElementById("aplayer-XOUAqdsa"),            narrow: false,            autoplay: false,            showlrc: false,            music: {              title: "Jesu, Joy of Man's Desiring",              author: "Gabor Varga Jazz Trio / Szaniszló Richárd",              url: "https://music.163.com/song/media/outer/url?id=1803632058.mp3",              pic: "https://p1.music.126.net/U67QMLrtvwLuhlvyRr_Uhg==/109951165533959970.jpg?param=130y130",              lrc: ""            }          });          window.aplayers || (window.aplayers = []);          window.aplayers.push(ap);        </script><p>坦言之，我读「逻辑哲学论」是因为玩了SCA-自老师的作品，而且我也没读懂这本书，但里面所描述的一些关于数学方法以及世界的哲学认知有打动我的地方，所以不妨在这里瞎说几句。「逻辑哲学论」的取命来自于斯宾诺莎的「神学政治论」，希望能够一读。</p><center>人所知道的而非仅由喧嚣扰攘中听来的一切，都可以用三个词说出来。<br>——屈伦伯格尔</center><p>即使是囫囵吞枣地读完全书之后，也是一定可以理解这句话的。关于前几章晦涩难懂的描述，不妨跳过，我认真读了，但是没有什么收获。</p><p>维氏在本书里所提到的许多关于符号、事实、逻辑图像、命题的描述与我们今日所采用的描述已有一定的区别，时而令我觉得眼熟，但尝试去认真理解他们的时候又感受到明显的障碍。但毫无疑问，维氏对于数学的描述是现代的，就像我们所开玩笑说的“1+2 = 2+1 不是因为他们都等于 3，而是因为这是一个阿贝尔群”一样，维氏对数学的描述以至于到哲学论的描述都秉持了这一谨慎的态度。</p><p>「5.6　　 我的语言的界限 意味我的世界的界限。」说出了十分可惜的事，我们不能用语言来描述我的世界，它是有界限的，如果我所说的实体不能被正确的指代，或是我所说的逻辑符号不能被理解成唯一的含义，那语言在这时候就无法描述世界。语言本身也是世界的一部分。如果想要完整的描述世界，那么只能够从世界之外观察。</p><p>「6.341　　 （正如借助数字系统我们能够写出任何数目一样，借助力学系统我们也应该能够写出任何物理学命题。）」，「6.342　　 …同样，世界可以用牛顿力学来描述，这关于世界并无所说；…」，玩过「すばひび」的朋友们还记得「空气力学」嘛？世界当然也可以用「空气力学」来描述，只是可能因为几乎没有付合规律性的命题，所以不能说出来而已。维氏说现代人之于自然规律，就像古代人之于神一样，他们都是正确切错误的，因为他们都不符合「因果律」，那么关于他们是否一定会发生这个命题就是不可说的。从语言的认知上来说，「5.621　 世界和人生是一回事」，但是当我们想要讨论其这些不可知的事情的时候，又会发现「6.373　世界是独立于我的意志的。」，换句话说，人生是独立于我的意志的，我无法把他说的明明白白的。「6.43　 幸福者的世界不同于不幸者的世界。」是因为他们的世界的界限不同，用数学系统描述世界的人和用力学系统描述世界的人和用「空气力学」系统描述世界的人，他们的世界的界限也不同。</p><p>「7　　　对于不可说的东西我们必须保持沉默。」第七章以一句话结尾，回答了卷首的格言，人所知道的都是能够被用三个词说明白的，而其他的，我们不能够说的明白，我们需要对此保持沉默。很有意思的一点是，本书在哲学上的论证，是想要说，当我们想要脱离自然规律讨论形而上学的东西的时候，就已经超过了说话者的世界的界限，我们应该对说话者说“快沉默吧！”。</p>]]></content:encoded>
       
       
       
@@ -483,31 +510,6 @@
       
       
       <comments>https://blog.tongmu.me/2019/10/22/tidb-expression-execflow/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>关于 TiDB 日文文档</title>
-      <link>https://blog.tongmu.me/2019/10/15/about-tidb-jp-doc/</link>
-      <guid>https://blog.tongmu.me/2019/10/15/about-tidb-jp-doc/</guid>
-      <pubDate>Tue, 15 Oct 2019 17:58:47 GMT</pubDate>
-      
-      <description>&lt;p&gt;&lt;code&gt;TiDB&lt;/code&gt;日文文档这个坑其实早就有想法了，但原本也没打算这么早开。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://you06.github.io/tidb-docs-jp/&quot;&gt;doc&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/you06/tidb-docs-jp&quot;&gt;repo&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
-      
-      
-      
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><code>TiDB</code>日文文档这个坑其实早就有想法了，但原本也没打算这么早开。</p><ul><li><a href="https://you06.github.io/tidb-docs-jp/">doc</a></li><li><a href="https://github.com/you06/tidb-docs-jp">repo</a></li></ul><a id="more"></a><h1 id="关于开坑"><a href="#关于开坑" class="headerlink" title="关于开坑"></a>关于开坑</h1><p>周末的时候在看日语语法，看了之后觉得需要做些题，我一个萌新也不知道做什么好，就跑去问大手子。大手子先是说“我不做题的”，然后给我指了条明路——翻译ben子，据说多翻翻就能过 N1 了。</p><p>好吧我这么正经的人怎么会去翻ben子，然后就想起了这个日文文档的坑，那就开吧。然后当天就用<a href="https://www.gitbook.com/"><code>gitbook</code></a>搞了一份出来，写了个序，摸了。</p><h1 id="文档的一些选择"><a href="#文档的一些选择" class="headerlink" title="文档的一些选择"></a>文档的一些选择</h1><p>但是过了几天之后我就放弃了<code>gitbook</code>，采用了<a href="https://github.com/rust-lang-nursery/mdBook"><code>mdbook</code></a>这个工具来写文档，这里稍作解释。主要原因是我不愿意在这件事情想引入一个第三方平台，和许多静态博客一样，源码放在<code>GitHub</code>，构建后的网站放在<code>GitHub Pages</code>上是最简洁的流程。其二是因为我司的环境比较融入<code>rust</code>生态，所以<code>mdbook</code>作为一个<code>cargo</code>包，个人会比较想要用它。</p><p>构建和文本规范检查用的是<a href="https://github.com/features/actions"><code>GitHub Actions</code></a>，作为<code>GitHub</code>家自产的<code>CI</code>，可以说上手体验是很不错了，如果用第三方<code>CI</code>，部署到<code>gh-pages</code>分支会很头疼，可以参考 <a href="https://github.com/rust-lang/simpleinfra/blob/master/travis-configs/static-websites.yml">rust-lang/simpleinfra</a>里的<code>travis</code>配置。显然我不是一个<code>travis</code>或是<code>CircleCI</code>专家，所以在这种地方就想要尽可能的简单，所以借助<a href="https://github.com/JamesIves/github-pages-deploy-action">github-pages-deploy-action</a>这个工具完成了自动部署的工作。</p><h1 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h1><p><code>TiDB</code>目前开发中的版本是<code>4.0.0-alpha</code>，稳定的版本为<code>release-3.0</code>和<code>release-3.1</code>，<code>release-3.1</code>是从<code>release-3.0</code>切出来的，文档还是使用的 3.0 版本。因此，翻译工作也将从 3.0 开始做起。估计等我 3.0 做的差不多了就该 4.0 发布了，所以 2.0 的文档没有填坑计划。</p><p>这个翻译项目在很长一段时间内会作为个人项目进行，在有一定完成度之后会有进入到官方仓库的意向（反正我现在不好意思提到官方仓库去）。</p><p>当然也希望多多收到 PR，有大手来 review 我的翻译就更好了。</p><h1 id="一些插曲"><a href="#一些插曲" class="headerlink" title="一些插曲"></a>一些插曲</h1><p>做这个翻译的过程中逼着自己写日文，也翻了很多日文技术相关的文档，参考措词。俺日本语本当苦手，然而正如大手所言，的确是个学习的好方式。</p><p>此前这个文档项目我只在微博和推上提到过，然后不知道怎么就被公司的大佬发现了，导致坑还没开（刚写完序，实际还没开始翻），就收获了一些<code>star</code>。并且推还被大佬点了个赞，我推上天天转色图应该没翻车吧？</p>]]></content:encoded>
-      
-      
-      
-      <category domain="https://blog.tongmu.me/tags/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</category>
-      
-      
-      <comments>https://blog.tongmu.me/2019/10/15/about-tidb-jp-doc/#disqus_thread</comments>
       
     </item>
     
