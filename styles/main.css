@@ -77,6 +77,14 @@ hr {
   margin: 25px 0;
   color: rgba(52,73,94,0.2);
 }
+.post-content p {
+  margin: 10px 0;
+}
+.post-content details {
+  border: 1px solid #34495e;
+  border-left: 0;
+  border-right: 0;
+}
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 @font-face {
   font-family: "myFirstFont";
