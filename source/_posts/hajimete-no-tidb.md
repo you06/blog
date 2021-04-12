@@ -15,8 +15,8 @@ TiDBエンジニアです。今回、TiDB初めての使用することについ
 [TiUP](https://github.com/pingcap/tiup/)で一番小さいのクラスターを展開することはおすすめ。
 
 ```
-curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh # TiUPをインストールする
-tiup playground --monitor=false --tiflash=0 # クラスターを展開する
+~ » curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh # TiUPをインストールする
+~ » tiup playground --monitor=false --tiflash=0 # クラスターを展開する
 Starting component `playground`: /home/you06/.tiup/components/playground/v1.4.1/tiup-playground --monitor=false --tiflash=0 v4.0.12
 Playground Bootstrapping...
 Start pd instance
