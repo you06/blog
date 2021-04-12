@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" href="/icon/icon-196x196.png" sizes="196x196">
+<link rel="icon" type="image/png" href="/icon/icon-96x96.png" sizes="96x96">
+
+
+<title>初めてのTiDB | Freezing</title>
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Freezing" type="application/rss+xml">
+</head>
+    <body>
+        <div class="container">
+            <header>
+<div class="main">
+<div class="title">
+    <a href="/" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        初めてのTiDB
+    </div>
+    <p class="sub">Apr 12 2021</p>
+    <div class="post-content">
+        <p>このブログは僕自身の観点から、PingCAPのオフィシャルのドキュメントではありません。</p>
+<p>TiDBエンジニアです。今回、TiDB初めての使用することについてが話します。</p>
+<h2 id="クラスターを展開する"><a href="#クラスターを展開する" class="headerlink" title="クラスターを展開する"></a>クラスターを展開する</h2><p><a target="_blank" rel="noopener" href="https://github.com/pingcap/tiup/">TiUP</a>で一番小さいのクラスターを展開することはおすすめ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl --proto &#39;&#x3D;https&#39; --tlsv1.2 -sSf https:&#x2F;&#x2F;tiup-mirrors.pingcap.com&#x2F;install.sh | sh # TiUPをインストールする</span><br><span class="line">tiup playground --monitor&#x3D;false --tiflash&#x3D;0 # クラスターを展開する</span><br><span class="line">Starting component &#96;playground&#96;: &#x2F;home&#x2F;you06&#x2F;.tiup&#x2F;components&#x2F;playground&#x2F;v1.4.1&#x2F;tiup-playground --monitor&#x3D;false --tiflash&#x3D;0 v4.0.12</span><br><span class="line">Playground Bootstrapping...</span><br><span class="line">Start pd instance</span><br><span class="line">Start tikv instance</span><br><span class="line">Start tidb instance</span><br><span class="line">Waiting for tidb instances ready</span><br><span class="line">127.0.0.1:4000 ... Done</span><br><span class="line">CLUSTER START SUCCESSFULLY, Enjoy it ^-^</span><br></pre></td></tr></table></figure>
+<p>そして、他のターミナルを開きて、MySQLクライアントでクラスターに接続しましょう。それから、MySQL同じに使うことができまて、試してみてください。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">~ » mysql --host 127.0.0.1 -P4000 -u root</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 4</span><br><span class="line">Server version: 5.7.25-TiDB-v4.0.12 TiDB Server (Apache License 2.0) Community Edition, MySQL 5.7 compatible</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2021, Oracle and&#x2F;or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and&#x2F;or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="ノードの種類"><a href="#ノードの種類" class="headerlink" title="ノードの種類"></a>ノードの種類</h2><p>クラスターの中で複数のノードはあって、TiDBやPDやTiKVやTiFlashやなど。詳しい情報を知っていることは必要ではない。</p>
+<ul>
+<li>TiDBは計算することを担任して、実際にデータを保有することではありません。その中でオプティマイザーとトランザクションの一部があります。</li>
+<li>PDはターム分配することを担任して、メタデータを保有することができました。</li>
+<li>TiKVはデータの保存するノードで、トランザクションの一部とRaftに基づくのMVCCはあります。高い可用性で、分散トランザクションをサポートするのKVデータベースです。</li>
+<li>TiFlashは<a target="_blank" rel="noopener" href="https://ja.wikipedia.org/wiki/OLAP">OLAP</a>分析しているクエリを専用するのエンジンです。TiDBと同じデータを使用することができて、データを同期は必要がありません。</li>
+</ul>
+<h2 id="トランザクション"><a href="#トランザクション" class="headerlink" title="トランザクション"></a>トランザクション</h2><p>トランザクションはデータベースの基本的な正しさの保証です。TiDBは二つのトランザクションのモードをサポートして、楽観トランザクションと悲観トランザクションです。その中で、悲観トランザクションはデフォルトで、<code>tidb_txn_mode</code>でセットすることができます。</p>
+<ul>
+<li>楽観トランザクションで複雑なトランザクションが同一のキーを書くことは許します。お先にコミットするのトランザクションが成功できて、他のトランザクションは失敗します。低い競合の場合は楽観モードが適切です。</li>
+<li>悲観トランザクションでトランザクションがの実施中はロックを書きますから、コミットは成功することが保証することができます。高い競合の場合は楽観モードが適切です。</li>
+</ul>
+<p>先ずは悲観モードを試してみてましょう。テーブルを作った後で、二つのトランザクションをまとめて行って、同じデータを処理しました。画像のなかで、二番目のトランザクションはブロックしました。結果は二つのトランザクションを成功して、順番は左の次に右の。</p>
+<p><img src="demo-pessimistic-txn.png" alt="Pessimistic Txn Demo"></p>
+<p>それで楽観モードを試します。<code>tidb_txn_mode</code>でモードをスイッチして、二つのトランザクションは同じプライマリーキーのデータを作成しました。結果は最初のトランザクションを成功して、他のトランザクションは失敗しました。それは「first commit wins」ルールです。</p>
+<p><img src="demo-optimistic-txn.png" alt="Optimistic Txn Demo"></p>
+<h2 id="プロダクションの注意事項"><a href="#プロダクションの注意事項" class="headerlink" title="プロダクションの注意事項"></a>プロダクションの注意事項</h2><p>TiUPの<code>playground</code>コマンドはテスト用だけて、データの可用性と安全は保障することはない。</p>
+<p>もし、自分でクラスターを操作したなら、TiUPの<code>cluster</code>を使ってください。もしクラウドでTiDB使ってほしいかった、Operatorで展開するおよび<a target="_blank" rel="noopener" href="https://en.pingcap.com/products/tidbcloud/">TiDBクラウド</a>を使うことができます。</p>
+<h2 id="他の質問"><a href="#他の質問" class="headerlink" title="他の質問"></a>他の質問</h2><p>もし他の質問があるなら、僕にメートルおよびメッセージを送りましょう。</p>
+<ul>
+<li>メートル：tongmu#pingcap.com</li>
+<li>ツイッター：<a target="_blank" rel="noopener" href="https://twitter.com/you06v">you06v</a></li>
+</ul>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E3%83%BC%E3%82%92%E5%B1%95%E9%96%8B%E3%81%99%E3%82%8B"><span class="toc-text">クラスターを展開する</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%83%8E%E3%83%BC%E3%83%89%E3%81%AE%E7%A8%AE%E9%A1%9E"><span class="toc-text">ノードの種類</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%83%88%E3%83%A9%E3%83%B3%E3%82%B6%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3"><span class="toc-text">トランザクション</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%83%97%E3%83%AD%E3%83%80%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-text">プロダクションの注意事項</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%96%E3%81%AE%E8%B3%AA%E5%95%8F"><span class="toc-text">他の質問</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+                    <a href="/tags/%E6%97%A5%E8%AF%AD/">日语</a>
+                
+                    <a href="/tags/TiDB/">TiDB</a>
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+        
+            <a class="next" href="/2021/04/11/learning-japanese-3/">
+                
+                <span class="prev-text">学日语要花费多少心思（三）</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  
+  <div>
+      <img src="/assets/by-nc.svg">
+  </div="text">
+  
+
+  <div class="text">Powered By
+    <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/zjx137/hexo-theme-Tsu">Tsu</a> &copy 2020
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+    
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+        <script>
+            if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+            }
+        </script>
+    
+</html>
