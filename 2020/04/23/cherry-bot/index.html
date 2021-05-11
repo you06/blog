@@ -16,13 +16,13 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://user-images.githubusercontent.com/9587680/60788142-95abc100-a18e-11e9-9a42-fbf21a023449.jpg">
 <meta property="article:published_time" content="2020-04-23T19:12:29.516Z">
-<meta property="article:modified_time" content="2021-05-11T13:00:06.767Z">
+<meta property="article:modified_time" content="2021-05-11T13:52:25.235Z">
 <meta property="article:author" content="you06">
 <meta property="article:tag" content="技术杂谈">
 <meta property="article:tag" content="English">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/9587680/60788142-95abc100-a18e-11e9-9a42-fbf21a023449.jpg">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;you06v">
+<meta name="twitter:creator" content="@you06v">
 <meta name="twitter:title" content="Cherry Bot">
 
 
@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
 <link rel="alternate" href="/rss2.xml" title="Freezing" type="application/rss+xml">
 </head>
     <body>
@@ -76,11 +76,12 @@
     <div class="post-content">
         <p><img src="https://user-images.githubusercontent.com/9587680/60788142-95abc100-a18e-11e9-9a42-fbf21a023449.jpg" alt="bot logo"></p>
 <h2 id="How-I-cames-from"><a href="#How-I-cames-from" class="headerlink" title="How I cames from"></a>How I cames from</h2><p>I will talk about this bot from my story. Things began from was July 2019, I joined PingCAP as an intern. Holy I was a noob of golang and knew nothing about rust that time. The best way learning a language is by practising, I started my first golang project named cherry-picker. As the name shows, this is a tool which helps PingCAP’s engineers cherry pick PRs from master branch to release branch. The project soon ran out of my expectation, we started in TiDB, then expanded to TiKV and PD. I noticed that this bot is such awesome, in the following months, the bot growed quickly, some features were deprecated and some were optimized. Nowadays, the bot is widely used in PingCAP, and we think it’s time to share the bot with you!</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="About-my-name"><a href="#About-my-name" class="headerlink" title="About my name"></a>About my name</h2><p>For a long time, I name the bot “cherry-picker”, because it’s the first feature of the bot. This time, I give it a new name, “Cherry Bot”, so the logo of bot will not change lol! By now, there are over 10 providers in this bot 🍻.</p>
 <h2 id="The-mostly-used-features"><a href="#The-mostly-used-features" class="headerlink" title="The mostly used features"></a>The mostly used features</h2><h3 id="Cherry-Pick"><a href="#Cherry-Pick" class="headerlink" title="Cherry Pick"></a>Cherry Pick</h3><p>Bug fix pull requests in repositories with multi branches like <code>release-xx</code> and <code>master</code> are usually required to be cherry picked to release branches, manually do this would be tedious. It would be worse if we forget cherry picking bug-fix pull requests. Then the bot comes, it cherry picks every merged PR with specific labels, like pull request labeled with <code>needs-cherry-pick-2.0</code> will be cherry picked to <code>release-2.0</code> branch. What about conflicts? The conflicts are common between branches, the bot can be configured to generate conflicted pull requests either report a conflict failure. The conflict pull requests would be like the following which can be specified by IDEs.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">branch contents</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">bug fix contents</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1234567890abcdef</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">branch contents</span><br><span class="line">=======</span><br><span class="line">bug fix contents</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 1234567890abcdef</span><br></pre></td></tr></table></figure>
+
 <h3 id="Auto-Merge"><a href="#Auto-Merge" class="headerlink" title="Auto Merge"></a>Auto Merge</h3><p>If you are using some languages which have a heavy cost in compile or there are some tests that would last for a long time. After the reviewing of the pull request is finished, the CI may still running. Sometimes we would require the pull request tested with up to date changes. GitHub offers <code>Update Branch</code> to merge the latest changes from base branch, but after this action, the CI should be restarted. Think about this, a pull request is ready to merge and waiting for CI finished, then the base branch is updated, which makes a force update of this pull request and the CI restarts. A thousands years later, the CI is finally about to success, a pull request merged into the base branch again which makes the CI should restarted again. The same thing may be caused by you AFK while waiting for CI done. This makes pull requests under the state of competition, and the most of the CI’s job would be waste. The bot offer a mechanism to merge pull requests in a queue. When maitainers commented with <code>/merge</code>, the bot will labeled the pull request with <code>status/can merge</code> which stands for the pull request will be auto merged. If the pull request need to be waited for others, bot will comment with all the waited pull request numbers. This auto merge job can be canceled by remove the <code>status/can merge</code> label easily.</p>
 <h3 id="Redeliver-Command"><a href="#Redeliver-Command" class="headerlink" title="Redeliver Command"></a>Redeliver Command</h3><p>PingCAP uses Jenkins for CI trigger and scheduler, some commands in Jenkins are only available for organization members. Besides, we also want some commands can be used by pull request owner, that’s why redeliver command comes. Comment with <code>@bot /run-integration-test</code>, then the bot will trigger this for you by comment with <code>/run-integration-test</code>. Do not try call <code>@bot /merge</code>, this would never work 😕.</p>
 <h3 id="Auto-Update"><a href="#Auto-Update" class="headerlink" title="Auto Update"></a>Auto Update</h3><p>Some large project will have multiple repos. For example <code>TiKV</code> have the dependency <code>rust-rocksdb</code> and <code>rust-rocksdb</code> is based on <code>RocksDB</code> and <code>Titan</code>. This means any updates from <code>RocksDB</code> or <code>Titan</code> will need to be updated to <code>rust-rocksdb</code> then <code>TiKV</code>. We are always not to do this manually, that’s the bot’s time, give me the chore. The bot will auto file up a pull request to update the sub modules.</p>

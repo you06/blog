@@ -16,13 +16,13 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://user-images.githubusercontent.com/9587680/74592246-59144200-505a-11ea-8dd5-e6fd9b561e7a.png">
 <meta property="article:published_time" content="2020-02-16T12:24:33.279Z">
-<meta property="article:modified_time" content="2021-05-11T13:00:06.767Z">
+<meta property="article:modified_time" content="2021-05-11T13:52:25.235Z">
 <meta property="article:author" content="you06">
 <meta property="article:tag" content="技术杂谈">
 <meta property="article:tag" content="日本語">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/9587680/74592246-59144200-505a-11ea-8dd5-e6fd9b561e7a.png">
-<meta name="twitter:creator" content="@https:&#x2F;&#x2F;twitter.com&#x2F;you06v">
+<meta name="twitter:creator" content="@you06v">
 <meta name="twitter:title" content="Chaos Mesh・Kubernetesのカオス上の舞う">
 
 
@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
 <link rel="alternate" href="/rss2.xml" title="Freezing" type="application/rss+xml">
 </head>
     <body>
@@ -79,7 +79,7 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/pingcap/chaos-mesh"><code>Chaos Mesh</code></a>はカオスエンジニアリングのためのテストツールです。</p>
 <p>コンテナ化されたアプリケーションに対してカオスなテストを行うことができます。</p>
 <p>そして、クラウドネイティブに準じたオープンソースなツールキットです。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="基礎知識"><a href="#基礎知識" class="headerlink" title="基礎知識"></a>基礎知識</h2><h3 id="カオステストが必要な理由"><a href="#カオステストが必要な理由" class="headerlink" title="カオステストが必要な理由"></a>カオステストが必要な理由</h3><p>カオスはプロダクション環境で頻繁に発生します、マシン障害、ネットワーク障害など。それらの障害=故障に対応するために、多くの試行錯誤を行って来ました。その結果生まれたのがカオステストです。</p>
 <p>単体テストはソースコードのモジュールごとの安定性を保障するために行います。同様にカオステストは 故障時の障害対応を安定して行えることを保証するために 行います。</p>
@@ -116,18 +116,24 @@
 <p>わかったところで公式ドキュメント：<a target="_blank" rel="noopener" href="https://github.com/pingcap/chaos-mesh#deploy-chaos-mesh">https://github.com/pingcap/chaos-mesh#deploy-chaos-mesh</a>にしたがって、実際に<code>Kubernetes</code>で<code>Chaos Mesh</code>を動かしてみましょう。</p>
 <h4 id="Helm使用して、Chaos-Mesh展開"><a href="#Helm使用して、Chaos-Mesh展開" class="headerlink" title="Helm使用して、Chaos Mesh展開"></a><code>Helm</code>使用して、<code>Chaos Mesh</code>展開</h4><p><code>Helm</code>チャートを取得する</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/pingcap/chaos-mesh.git</span><br><span class="line"><span class="built_in">cd</span> chaos-mesh/</span><br></pre></td></tr></table></figure>
+
 <p>カスタムリソースをインストールする</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f manifests/</span><br><span class="line"><span class="comment"># CRD を確認する</span></span><br><span class="line">kubectl get crd podchaos.pingcap.com</span><br><span class="line">kubectl get crd networkchaos.pingcap.com</span><br><span class="line">kubectl get crd iochaos.pingcap.com</span><br><span class="line">kubectl get crd timechaos.pingcap.com</span><br></pre></td></tr></table></figure>
+
 <p>通常、コンテナランタイムは<code>Docker</code>。もし他のコンテナランタイムを使用している場合はドキュメントを参照してください。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 名前空間を作成する</span></span><br><span class="line">kubectl create ns chaos-testing</span><br><span class="line"><span class="comment"># helm 2.X</span></span><br><span class="line">helm install helm/chaos-mesh --name=chaos-mesh --namespace=chaos-testing</span><br><span class="line"><span class="comment"># helm 3.X</span></span><br><span class="line">helm install chaos-mesh helm/chaos-mesh --namespace=chaos-testing</span><br><span class="line"><span class="comment"># Chaos Mesh pods を確認する</span></span><br><span class="line">kubectl get pods --namespace chaos-testing -l app.kubernetes.io/instance=chaos-mesh</span><br></pre></td></tr></table></figure>
+
 <h4 id="テストしてみましょう"><a href="#テストしてみましょう" class="headerlink" title="テストしてみましょう"></a>テストしてみましょう</h4><p>テスト対象のアプリケーションコンテナを実行します。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl create ns hello-chaos</span><br><span class="line">kubectl -n hello-chaos create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1</span><br></pre></td></tr></table></figure>
+
 <p>カオスを設定します。</p>
 <p>例：<a target="_blank" rel="noopener" href="https://github.com/pingcap/chaos-mesh/blob/master/examples/pod-kill-example.yaml">https://github.com/pingcap/chaos-mesh/blob/master/examples/pod-kill-example.yaml</a></p>
 <p>hello-chaosネームスペースの<code>app=kubernetes-bootcamp</code>というラベルがついたpodを1分ごとにランダムに一つ終了させます。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">pingcap.com/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PodChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">hello-pod-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">pod-kill</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">hello-chaos</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">&quot;app&quot;:</span> <span class="string">&quot;kubernetes-bootcamp&quot;</span></span><br><span class="line">  <span class="attr">scheduler:</span></span><br><span class="line">    <span class="attr">cron:</span> <span class="string">&quot;@every 1m&quot;</span></span><br></pre></td></tr></table></figure>
+
 <p><code>pod kill</code>を適用して、動作しているか確認します。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pod kill を適用する</span></span><br><span class="line">kubectl apply -f hello-pod-kill.yaml</span><br><span class="line"><span class="comment"># pod 再起動を確認する</span></span><br><span class="line">watch -n 1 kubectl -n hello-chaos get pods</span><br></pre></td></tr></table></figure>
+
 <h2 id="今後の仕事"><a href="#今後の仕事" class="headerlink" title="今後の仕事"></a>今後の仕事</h2><p>現在の<code>Chaos Mesh</code>にはいくつかの欠陥があります。</p>
 <ul>
 <li>カオスの追加は面倒です</li>
