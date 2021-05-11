@@ -45,4 +45,4 @@ tags:
 
 ![](https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-05/DSC01134.jpg)
 
-这张同是夕阳时刻的照片。
+这张也是夕阳时刻的照片，不过在调色上费了些神。
