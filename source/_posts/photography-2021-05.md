@@ -1,4 +1,4 @@
-title: 个人摄影展-2021-05
+title: 风景摄影-2021-05
 author: you06
 date: 2021-05-11 22:05:53
 tags:
@@ -9,7 +9,7 @@ tags:
 
 这张照片不是用广角镜头拍的，是由两张照片合成而来，下面是原图。
 
-![](https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-05/DSC00825+826.jpg)
+![](https://maple-blog.oss-cn-shanghai.aliyuncs.com/photography/2021-05/DSC00825%2B826.jpg)
 
 我觉得对于城墙这种雄伟的建筑，一个视角能表达的画幅有限，所以进行了一些尝试，结果达到了我的预期，并且一开始把合成后的图发送给同玩摄影的朋友的时候，他也没有一眼看出异样。
 
