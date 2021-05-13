@@ -15,11 +15,22 @@
 <meta property="og:description" content="yasp(Yet Another SQL Parser) 是一个SQL解析工具，此前我用TiDB Parser 用得很爽，但是用TiDB Parser写测试工具存在一个固有问题是测试工具嫖了被测对象的代码是不合理的。本着严谨科学（和主要是喜欢造轮子）的态度，开了个SQL Parser（下简称Parser）的坑。 起初我打算用lalrpop一把梭，词法语法一起做了，但是这玩意的词法分析有个小坑是正则">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-06-01T23:23:23.000Z">
-<meta property="article:modified_time" content="2021-05-11T14:42:06.434Z">
+<meta property="article:modified_time" content="2021-05-13T06:30:55.198Z">
 <meta property="article:author" content="you06">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@you06v">
 <meta name="twitter:title" content="yasp 开发日记【1】">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL84R82GK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BCL84R82GK');
+</script>
+
 
 <meta name="twitter:description" content="yasp(Yet Another SQL Parser) 是一个SQL解析工具，此前我用TiDB Parser 用得很爽，但是用TiDB Parser写测试工具存在一个固有问题是测试工具嫖了被测对象的代码是不合理的。本着严谨科学（和主要是喜欢造轮子）的态度，开了个SQL Parser（下简称Parser）的坑。 起初我打算用lalrpop一把梭，词法语法一起做了，但是这玩意的词法分析有个小坑是正则">
 
@@ -214,15 +225,4 @@
             }
         </script>
     
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
-        ga('create', 'G-BCL84R82GK', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <!-- End Google Analytics -->
 </html>
