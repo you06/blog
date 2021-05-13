@@ -6,6 +6,17 @@
 <link rel="icon" type="image/png" href="/icon/icon-96x96.png" sizes="96x96">
 <%- open_graph({twitter_id: theme.twitter, google_plus: theme.google_plus, fb_admins: theme.fb_admins, fb_app_id: theme.fb_app_id}) %>
 <meta name="twitter:title" content="<%- page.title %>">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL84R82GK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '<%- theme.google_analytics %>');
+</script>
+
 <%
   var twitterDescriptionTag = open_graph().trim().split('\n')[0];
   if (twitterDescriptionTag) {
