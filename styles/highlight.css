@@ -9,6 +9,7 @@ code {
   padding: 3px 5px;
   border-radius: 4px;
   color: #6a7c8e;
+  white-space: break-spaces;
 }
 .highlight {
   margin: 1em 0;
