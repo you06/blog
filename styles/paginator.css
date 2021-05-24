@@ -1,5 +1,6 @@
 .page-nav,
 .paginator {
+  height: 50px;
   padding-bottom: 10px;
 }
 .page-nav .next,

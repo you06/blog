@@ -328,6 +328,9 @@ pre .javascript .function {
   padding: 30px 50px;
   border-bottom: 1px solid #eee;
 }
+.archive:last-child: {
+  border-bottom: none;
+}
 .archive .post-archive {
   list-style: none;
   padding: 0;
@@ -367,6 +370,7 @@ pre .javascript .function {
 }
 .page-nav,
 .paginator {
+  height: 50px;
   padding-bottom: 10px;
 }
 .page-nav .next,

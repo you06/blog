@@ -3,6 +3,9 @@
   padding: 30px 50px;
   border-bottom: 1px solid #eee;
 }
+.archive:last-child: {
+  border-bottom: none;
+}
 .archive .post-archive {
   list-style: none;
   padding: 0;
