@@ -1,7 +1,7 @@
 title: 学日语要花费多少心思（三）
 author: you06
 tags:
-  - 日语
+  - 日语学习
 categories: []
 date: 2021-04-11 22:21:00
 ---

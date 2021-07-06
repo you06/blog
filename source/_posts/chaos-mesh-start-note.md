@@ -2,7 +2,7 @@ title: Chaos Mesh Start Note
 route: chaos-mesh-start-note
 date: 2020-02-23T16:44:10.068Z
 tags: 
-    - 日语学习
+    - 技术杂谈
     - 日本語
 --------------------------
 この[ブログ](https://blog.tongmu.me/blog/chaos-mesh-start)を改善してくれた[genboku](https://twitter.com/SSSSSSSHHHHHH4)さんに感謝しました。

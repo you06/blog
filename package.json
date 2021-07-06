@@ -27,6 +27,10 @@
     "hexo-renderer-scss": "^1.2.0",
     "hexo-renderer-stylus": "^2.0.1",
     "hexo-server": "^2.0.0",
-    "hexo-tag-aplayer": "^3.0.4"
+    "hexo-tag-aplayer": "^3.0.4",
+    "node-sass": "^6.0.1"
+  },
+  "resolutions": {
+    "node-sass": "you06/node-sass"
   }
 }
