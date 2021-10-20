@@ -85,6 +85,13 @@ hr {
   border-left: 0;
   border-right: 0;
 }
+.tags {
+  height: 160px;
+  overflow: hidden;
+}
+.tags:hover {
+  overflow: inherit;
+}
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 @font-face {
   font-family: "myFirstFont";
