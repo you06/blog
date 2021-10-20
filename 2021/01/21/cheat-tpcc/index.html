@@ -7,19 +7,19 @@
 <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="icon" type="image/png" href="/icon/icon-196x196.png" sizes="196x196">
 <link rel="icon" type="image/png" href="/icon/icon-96x96.png" sizes="96x96">
-<meta name="description" content="本篇博客为隐藏内容，只对知道链接的你开放，请勿以任何公开或私有的形式分享链接，感谢！ 这里是隐藏博客的测试，如果你通过任何方式这公网&#x2F;搜索引擎上看到这个页面的链接并点击进来的话，可以麻烦告诉我是如何找到的吗，谢谢！ This is a test page for hidden blog feature. If you enter this page by a link from Internet">
+<meta name="description" content="写这篇 TPC-C 作弊指南是因为 TPC-C 的标准里列举了许多不允许的行为，根据这些行为能够猜到前人为了取得高分都做了些什么骚操作。本为作为「理解 TPC-C」的补充材料，目的是为了让以优化 TPC-C 为目标的同学节省时间、不误入岐途。  使用 view 将多个操作合并成为一个。本来三条语句才能完成的操作，现在一条就可以搞定了，不管性能怎么样，省下了两轮网络交互的时间是板上钉钉的。(1.4.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="隐藏博客测试">
-<meta property="og:url" content="https://blog.tongmu.me/2021/07/22/hidden-blog-test/index.html">
+<meta property="og:title" content="TPC-C 作弊指南">
+<meta property="og:url" content="https://blog.tongmu.me/2021/01/21/cheat-tpcc/index.html">
 <meta property="og:site_name" content="Freezing">
-<meta property="og:description" content="本篇博客为隐藏内容，只对知道链接的你开放，请勿以任何公开或私有的形式分享链接，感谢！ 这里是隐藏博客的测试，如果你通过任何方式这公网&#x2F;搜索引擎上看到这个页面的链接并点击进来的话，可以麻烦告诉我是如何找到的吗，谢谢！ This is a test page for hidden blog feature. If you enter this page by a link from Internet">
+<meta property="og:description" content="写这篇 TPC-C 作弊指南是因为 TPC-C 的标准里列举了许多不允许的行为，根据这些行为能够猜到前人为了取得高分都做了些什么骚操作。本为作为「理解 TPC-C」的补充材料，目的是为了让以优化 TPC-C 为目标的同学节省时间、不误入岐途。  使用 view 将多个操作合并成为一个。本来三条语句才能完成的操作，现在一条就可以搞定了，不管性能怎么样，省下了两轮网络交互的时间是板上钉钉的。(1.4.">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-07-22T14:14:14.000Z">
-<meta property="article:modified_time" content="2021-08-14T04:10:41.113Z">
+<meta property="article:published_time" content="2021-01-21T11:16:45.000Z">
+<meta property="article:modified_time" content="2021-10-20T11:38:48.992Z">
 <meta property="article:author" content="you06">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:creator" content="@you06v">
-<meta name="twitter:title" content="隐藏博客测试">
+<meta name="twitter:title" content="TPC-C 作弊指南">
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL84R82GK"></script>
@@ -32,10 +32,10 @@
 </script>
 
 
-<meta name="twitter:description" content="本篇博客为隐藏内容，只对知道链接的你开放，请勿以任何公开或私有的形式分享链接，感谢！ 这里是隐藏博客的测试，如果你通过任何方式这公网&#x2F;搜索引擎上看到这个页面的链接并点击进来的话，可以麻烦告诉我是如何找到的吗，谢谢！ This is a test page for hidden blog feature. If you enter this page by a link from Internet">
+<meta name="twitter:description" content="写这篇 TPC-C 作弊指南是因为 TPC-C 的标准里列举了许多不允许的行为，根据这些行为能够猜到前人为了取得高分都做了些什么骚操作。本为作为「理解 TPC-C」的补充材料，目的是为了让以优化 TPC-C 为目标的同学节省时间、不误入岐途。  使用 view 将多个操作合并成为一个。本来三条语句才能完成的操作，现在一条就可以搞定了，不管性能怎么样，省下了两轮网络交互的时间是板上钉钉的。(1.4.">
 
 
-<title>隐藏博客测试 | Freezing</title><meta name="robots" content="noindex">
+<title>TPC-C 作弊指南 | Freezing</title>
 
 
 <link rel="stylesheet" href="/styles/main.css">
@@ -51,9 +51,6 @@
     <body>
         <div class="container">
             <header>
-<div id='wx_pic' style='margin:0 auto;display:none;'>
-    <img src='/icon/wechat-icon.jpg' />
-</div>
 <div class="main">
 <div class="title">
     <a href="/" class="logo">Freezing</a>
@@ -82,15 +79,20 @@
 <div class="post-wrapper">
     <article class="post article-entry">
     <div class="post-title">
-        隐藏博客测试
+        TPC-C 作弊指南
     </div>
-    <p class="sub">Jul 22 2021</p>
+    <p class="sub">Jan 21 2021</p>
     <div class="post-content">
-        <pre><code>本篇博客为隐藏内容，只对知道链接的你开放，请勿以任何公开或私有的形式分享链接，感谢！</code></pre>
-<p>这里是隐藏博客的测试，如果你通过任何方式这公网/搜索引擎上看到这个页面的链接并点击进来的话，可以麻烦告诉我是如何找到的吗，谢谢！</p>
-<p>This is a test page for hidden blog feature. If you enter this page by a link from Internet or a search engine, would you mind telling me how to find the entrance? Thanks!</p>
-<p>我的邮箱/My Email: <a href="mailto:&#x79;&#111;&#117;&#x31;&#x34;&#x37;&#x34;&#54;&#x30;&#48;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#x79;&#111;&#117;&#x31;&#x34;&#x37;&#x34;&#54;&#x30;&#48;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a></p>
-<!-- flag of hidden posts -->
+        <p>写这篇 TPC-C 作弊指南是因为 TPC-C 的标准里列举了许多不允许的行为，根据这些行为能够猜到前人为了取得高分都做了些什么骚操作。本为作为「理解 TPC-C」的补充材料，目的是为了让以优化 TPC-C 为目标的同学节省时间、不误入岐途。</p>
+<ul>
+<li><p>使用 view 将多个操作合并成为一个。本来三条语句才能完成的操作，现在一条就可以搞定了，不管性能怎么样，省下了两轮网络交互的时间是板上钉钉的。(1.4.2)</p>
+</li>
+<li><p>让 primary key 指向数据的物理分片，这样测试端就知道他该向那个分片发送请求了。(1.4.10)</p>
+</li>
+<li><p>用 partition name 进行访问数据。(1.6.1)</p>
+</li>
+</ul>
+
     </div>
     </article>
 </div>
@@ -119,6 +121,17 @@
 
     <nav class="paginator clearfix">
         
+            <a class="prev" href="/2021/01/24/russell-paradox-nl-void-any/">
+                <i class="iconfont icon-left"></i>
+                <span class="prev-text">「罗素悖论」、自然语言和 void*</span>
+            </a>
+        
+        
+            <a class="next" href="/2021/01/19/rikai-tpcc/">
+                
+                <span class="prev-text">理解 TPC-C</span>
+                <i class="iconfont icon-right"></i>
+            </a>
         
     </nav>
 
