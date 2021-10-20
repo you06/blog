@@ -87,6 +87,13 @@ hr {
   border-left: 0
   border-right: 0
 }
+.tags {
+  height: 160px
+  overflow: hidden
+  &:hover {
+    overflow: inherit
+  }
+}
 
 @import "header"
 @import "posts" 
@@ -99,5 +106,5 @@ hr {
 @import "content"
 @import "back-to-top"
 @import "toc"
-  @import "sidebar"
-  @import "tags"
+@import "sidebar"
+@import "tags"
