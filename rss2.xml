@@ -15,8 +15,33 @@
     <atom:link href="https://blog.tongmu.me/rss2.xml" rel="self" type="application/rss+xml"/>
     <atom:link href="https://blog.tongmu.me/" rel="hub"/>
     <description>you06&#39;s blog &amp; everything</description>
-    <pubDate>Sun, 22 May 2022 08:10:42 GMT</pubDate>
+    <pubDate>Sun, 19 Jun 2022 13:10:41 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>「天聲」 - 个人翻译</title>
+      <link>https://blog.tongmu.me/2022/06/19/ten-no-koe/</link>
+      <guid>https://blog.tongmu.me/2022/06/19/ten-no-koe/</guid>
+      <pubDate>Sun, 19 Jun 2022 20:56:35 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
+          
+        
+      
+      
+      
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><hr><pre><code>本文为「天聲」的个人翻译，不提供原文与音乐下载，大家多多支持正版。</code></pre><p>传送门：<a href="https://icddecadence.com/3rdalbum/">https://icddecadence.com/3rdalbum/</a></p><hr><center style='font-family: Georgia, "游明朝", "Yu Mincho", "游明朝体", YuMincho, "ヒラギノ明朝 Pro", "Hiragino Mincho ProN", "MS P明朝", "MS PMincho", HGS明朝E, "MS Mincho", serif;'>痛苦随着声音响彻云霄。<br><br>向你传达。<br>天之声。<br><br>初生的生命是爱的赞歌<br>沉重的悲伤与绝望，沉思死亡是为了寻找生的希望<br>正如痛苦不会终结，不必沉溺于悲伤<br>如斩断永劫的螺旋般，奏响天之声（てんせい）―――。<br><br>君如我歌，消散不留回声<br><br>沉入黑暗时也会高举手臂寻求光明吧<br><br>蒙受水刑的原罪却能够获得拥抱，即使知道处决祭坛的痛苦，也想去往那个地方<br><br>忧虑爱情，饱食哀愁，歌颂天之声（てんのこえ）―――。<br><br>扼杀痛苦，鲜血淋漓<br>拧断翅膀，脚步不停，直至地平线的尽头<br><br>如斩断永劫的螺旋般，奏响天之声（てんせい）<br><br>即使在苦难之中，眼前被黑暗所覆盖<br>也不会放过一丝光线，直到生命的尽头―――。<br><br>遇见光明，唱响歌声―――。<br><br>扼杀痛苦，鲜血淋漓<br>拧断翅膀，脚步不停，踏向地平线的尽头<br><br>如斩断永劫的螺旋般<br>万众瞩目之下<br>燃尽干枯的泪水<br>奏响天之声（てんせい）<br><br>斩断永劫的螺旋<br><br>呜呼，天之声（てんのこえ）啊―――。</center>]]></content:encoded>
+      
+      
+      
+      
+      <comments>https://blog.tongmu.me/2022/06/19/ten-no-koe/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>Tales of the Tail</title>
@@ -508,31 +533,6 @@
       
       
       <comments>https://blog.tongmu.me/2021/01/29/review-will-a-wonderful-world/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>「罗素悖论」、自然语言和 void*</title>
-      <link>https://blog.tongmu.me/2021/01/24/russell-paradox-nl-void-any/</link>
-      <guid>https://blog.tongmu.me/2021/01/24/russell-paradox-nl-void-any/</guid>
-      <pubDate>Sun, 24 Jan 2021 18:26:08 GMT</pubDate>
-      
-        
-        
-          
-          
-      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
-          
-        
-      
-      
-      
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>「罗素悖论」在很多地方都有提到，还有个比较通俗易懂的说法是「理发师悖论」，即：</p><center>小城里的理发师放出豪言：他要为城里人刮胡子，而且一定只要为城里所有“不为自己刮胡子的人”刮胡子。<br>但问题是：理发师该为自己刮胡子吗？</center><p>很多文章把这个悖论摆到读者面前的同时，自身却仿佛视悖论为公理的退缩了。「罗素悖论」对集合论带来了一波冲击，指出了其缺陷。数学家们的严谨使得这一悖论所指出的问题被「<a href="https://zh.wikipedia.org/wiki/%E7%BD%97%E7%B4%A0%E5%85%AC%E7%90%86%E4%BD%93%E7%B3%BB#%E7%B1%BB%E7%9A%84%E5%86%85%E6%B6%B5%E5%85%AC%E7%90%86">类的内涵公理</a>」所避免；而维特根斯坦则在「逻辑哲学论」中指出「罗素悖论」在讨论不能说的东西，应当避免这种无意义的讨论。</p><h2 id="边界"><a href="#边界" class="headerlink" title="边界"></a>边界</h2><p>根据维的观点，我们的语言是有界限的，当我们超出认知去谈论的一个东西的时候，这就是胡话（nonsense）。例如我命名不可知的一种外星生物叫「八爪鱼」，随之对它的任何描述都没有意义。回到「罗素悖论」并把条件稍加修改，我们假设存在一个「所有我的语言所不能描述的所形成的集合」，那么这个集合本身是否存在于它自身呢？相比于「八爪鱼」这里更加抽象一些，「所有我的语言所不能描述的所形成的集合」，是一个不可被讨论的东西，下了定义并不足以说明这是件被语言所说清楚、可以描述的事情，因为：</p><ul><li><ol><li>世界是一切发生的事情。</li></ol></li><li>5.6 我的语言的界限 意味我的世界的界限。</li></ul><p>所以我们能讨论的集合仅是「所有我的语言能描述的所形成的集合」，而非其互斥集。</p><p>自然语言是不严谨的，我们要时刻小心使用中出现的逻辑漏洞，并严谨的用它作为讨论的工具，让我们进入到愉快的程序语言。</p><p>void* 是什么？</p><p>void* 可以是任何东西！他是「所有我所知道的类型所形成的集合」+「所有我所不知道的类型所形成的集合」，我们令 P 是「所有我所知道的类型所形成的集合」，Q 是「所有我所不知道的类型所形成的集合」。那么 P 里面所有的事情，我都能说的清清楚楚；而 Q 里面所发生的任意一件事，对我们而言都是不明真相的二进制编码。</p><h2 id="自成性"><a href="#自成性" class="headerlink" title="自成性"></a>自成性</h2><p>自举已然是编程语言的常见行为，一门图灵完备的编程语言当然可以实现它自身。在一个对编译器不了解的人读到这句话时，很可能想到的和编译器/解释器所做的大相庭径。我也算不得什么编译器专家，所以结合「逻辑哲学论」的观点，在这里谈一下我对于自举这件事情的看法。</p><p>维特根斯坦在「逻辑哲学论」想要表达的重要观点之一就是把他所写的这本书以及其立场也至于一个被自身否定的地位。这本书是用自然语言撰写的，那么我们不禁想问：如何保证你所使用的自然语言中所用到的对象是你所了解、清楚的呢？如果我们遵守“对于不可说的东西我们必须保持沉默(7)”这一原则，是否会陷入一个没有东西可以说的状态呢？因此维把自己的逻辑也立于这样一个地位，如果你尝试用不可说（nonsense）来否定这本书，那么其否定的立场本身所基于的一定是某些“我们所知道、可以说的”真理。维想要的到的效果是，这一假定的真理本身就是给了这本书一个基石，即当这是“可以说”的时候，论调是成立的，这是“不可说”的时候，对其的否定也处于“不可说”的地位。我们只需要谨慎的，不在“不可说”的领域去应用这一套理论，就不会犯错误。</p><p>回到编程语言中，我们需要谨慎的，不在“不可说”（undefined behavior 甚至是不合理的语法）的领域中去应用编程语言，他就是能够说明白的。编程语言比起自然语言更严谨，更不容易犯错误，编译器/解释器甚至保证你在编写过程中不越过“不可说”的边界。那么编程语言自举的根基（可说的真理）究竟在哪呢？</p><p>我们尚且不把链接器考虑到我们所说的编程语言的一部分中去，假设这里所指编程语言仅仅是编译器前端。编程语言的工作是，假设我们生成的 IR 能够在一个完美的状态机上运行的情况下，根据所掌握的这一些“真理”，去构建一套语言体系。至此，我们回避了很多的论证，剩下的问题是，一门语言能否描述清楚他自己？</p><p>一门要描述清楚他自己，首先就要求，这们语言是不能讲胡话（nonsense）的，例如一个函数接受 T 类型，返回非 T 的某种类型，这就是胡话。</p><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">type</span> <span class="title">A</span></span> = [<span class="built_in">u8</span>];</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Any</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> Any <span class="keyword">for</span> &amp;A &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">make_sense</span></span>&lt;T&gt;(input: T) -&gt; T &#123;</span><br><span class="line">    input</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">russell_paradox</span></span>&lt;T&gt;(input: &amp;T) -&gt; <span class="built_in">Box</span>&lt;<span class="keyword">dyn</span> Any&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> r = <span class="keyword">unsafe</span> &#123; *(input <span class="keyword">as</span> *<span class="keyword">const</span> T <span class="keyword">as</span> *<span class="keyword">const</span> &amp;A) &#125;;</span><br><span class="line">    <span class="built_in">Box</span>::new(r)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> _a = make_sense(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">let</span> b = russell_paradox(&amp;<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">let</span> c = russell_paradox(&amp;b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>由于“非 T 的某种类型”难以表示，此处用一个 Any 类型来表示（不同于 std::any::Any，这里的 Any 连 type_id 方法都没实现，是一个真正的不知道类型的玩意），我们假设 russell_paradox 这个函数接受类型 T，返回一个类型不是 T 的值，第一次调用这个函数，我们的到了 b，第二次用 b 得到 c，问题是 c 的类型和 b 类型的关系是什么呢？在第一次调用 russell_paradox 函数时，其返回值 b 已经失去类型信息了，而第二次的调用无非是把不知道是什么类型的数据再丢失一次类型，问这两个值的类型关系是什么，是没有意义的。当我们要使用这两个值做任何有类型的的事情时，编译器会立刻阻止我们，除非再一次为它执行定类型。</p><p>我们所说的编程语言，其实是在一个完美的状态机上面运行的，但没有人能够证明这个状态机是完美的，即使 CPU 的电路设计没有问题，因为宇宙射线导致的电位跳动会立即导致我们的程序陷入“不可知”（undefined behavior）的状态，这种“不可知”已经超出了我们的能力范围。</p><p>抛开下层的东西不谈，自举的有趣在于，当我们批评一个自举的论证有错的时候，即是在说它的过程有误、也是在说它的结果和出发点有误。然而指出错误的人本身认可了一套他所指出错误的逻辑（命题）和这些命题所基于的真理。只要从这些命题和真理出发，对自举的论证过程加以修正，就能得到他的语言的边界所指不出错的编程语言和自举过程。</p><p>以上，是我对自举合理性的看法。</p><p>而自然语言的自成性和对不合理过程的论证，似乎平滑的多。我们说“所有的天鹅都是白的”，直到某一天飞出了一只黑天鹅，这时候我们就会把事实（facts）改成“天鹅有白的和黑的”，与此相关的命题都跟着修改，这样我们又得到了一个满足自成性的语言。而自然语言的边界甚广，以至于它无时不存在一个修正的状态。</p><p>我们的现实世界就是这样扩张的。</p>]]></content:encoded>
-      
-      
-      
-      
-      <comments>https://blog.tongmu.me/2021/01/24/russell-paradox-nl-void-any/#disqus_thread</comments>
       
     </item>
     
