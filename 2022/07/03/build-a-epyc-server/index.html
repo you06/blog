@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" href="/icon/icon-196x196.png" sizes="196x196">
+<link rel="icon" type="image/png" href="/icon/icon-96x96.png" sizes="96x96">
+<meta name="description" content="近期组了一台双路 Epyc 的服务器，这篇博客记录组机器时候的一些坑点，供朋友们参考。  Epyc 是 AMD 为服务器设计的 CPU，大概长这样。  单路 - 多路仔细观察上图的 CPU 型号为 7302P，同时 AMD 还有一款 CPU 型号为 7302，带 P 后缀的说明这个 CPU 只支持单插槽的，如果想组双路的话就要避开这类型号。除此之外这 XXXX 与 XXXXP 的性能几乎相同。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Epyc 服务器之坑">
+<meta property="og:url" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/index.html">
+<meta property="og:site_name" content="Freezing">
+<meta property="og:description" content="近期组了一台双路 Epyc 的服务器，这篇博客记录组机器时候的一些坑点，供朋友们参考。  Epyc 是 AMD 为服务器设计的 CPU，大概长这样。  单路 - 多路仔细观察上图的 CPU 型号为 7302P，同时 AMD 还有一款 CPU 型号为 7302，带 P 后缀的说明这个 CPU 只支持单插槽的，如果想组双路的话就要避开这类型号。除此之外这 XXXX 与 XXXXP 的性能几乎相同。">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/cpus.png">
+<meta property="og:image" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/epyc-socket.jpg">
+<meta property="og:image" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/7302-7302p.png">
+<meta property="og:image" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/cpu-fan.png">
+<meta property="article:published_time" content="2022-07-03T11:39:21.000Z">
+<meta property="article:modified_time" content="2022-07-03T03:52:21.922Z">
+<meta property="article:author" content="you06">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.tongmu.me/2022/07/03/build-a-epyc-server/cpus.png">
+<meta name="twitter:creator" content="@you06v">
+<meta name="twitter:title" content="Epyc 服务器之坑">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL84R82GK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BCL84R82GK');
+</script>
+
+
+<meta name="twitter:description" content="近期组了一台双路 Epyc 的服务器，这篇博客记录组机器时候的一些坑点，供朋友们参考。  Epyc 是 AMD 为服务器设计的 CPU，大概长这样。  单路 - 多路仔细观察上图的 CPU 型号为 7302P，同时 AMD 还有一款 CPU 型号为 7302，带 P 后缀的说明这个 CPU 只支持单插槽的，如果想组双路的话就要避开这类型号。除此之外这 XXXX 与 XXXXP 的性能几乎相同。">
+
+
+<title>Epyc 服务器之坑 | Freezing</title>
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Freezing" type="application/rss+xml">
+</head>
+    <body>
+        <div class="container">
+            <header>
+<div id='wx_pic' style='margin:0 auto;display:none;'>
+    <img src='/icon/wechat-icon.jpg' />
+</div>
+<div class="main">
+<div class="title">
+    <a href="/" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        Epyc 服务器之坑
+    </div>
+    <p class="sub">Jul 03 2022</p>
+    <div class="post-content">
+        <p>近期组了一台双路 Epyc 的服务器，这篇博客记录组机器时候的一些坑点，供朋友们参考。</p>
+<p><img src="cpus.png" alt="CPUs"></p>
+<p>Epyc 是 AMD 为服务器设计的 CPU，大概长这样。</p>
+<p><img src="epyc-socket.jpg" alt="Epyc Socket"></p>
+<h2 id="单路-多路"><a href="#单路-多路" class="headerlink" title="单路 - 多路"></a>单路 - 多路</h2><p>仔细观察上图的 CPU 型号为 <strong>7302P</strong>，同时 AMD 还有一款 CPU 型号为 <strong>7302</strong>，带 P 后缀的说明这个 CPU 只支持单插槽的，如果想组双路的话就要避开这类型号。除此之外这 <strong>XXXX</strong> 与 <strong>XXXXP</strong> 的性能几乎相同。</p>
+<p><img src="7302-7302p.png" alt="7302-7302P"></p>
+<h2 id="CPU-代号"><a href="#CPU-代号" class="headerlink" title="CPU 代号"></a>CPU 代号</h2><p>首先看 Epyc 的代号名称。</p>
+<table>
+<thead>
+<tr>
+<th>代数</th>
+<th>代号</th>
+<th>发布年份</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Naple</td>
+<td>2017</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Rome</td>
+<td>2019</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Milan(-X)</td>
+<td>2021</td>
+</tr>
+<tr>
+<td>4</td>
+<td>…</td>
+<td>2022</td>
+</tr>
+</tbody></table>
+<p>四代代号比较多这里不写了，目前 3/4 代大船没靠岸大多也买不起。而一代和二代之间则优先推荐二代（一代是 14nm，二代是台积电 7nm）。在 CPU 的代号中，代数体现在最后一个数字上，上面提到的 <strong>7302</strong> 就是二代 CPU。中间两位数字简单地说就是越大越好，感兴趣的朋友可以去 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Epyc#Second_generation_Epyc_(Rome)">wiki</a> 看看售价和参数。</p>
+<h2 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h2><p>我选择的是超微 H11DSi，海鲜市场 1250 买的，这里说一下几种型号的差别。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.supermicro.com/ja/products/motherboard/H11SSL-i">H11SSL-i</a> / <a target="_blank" rel="noopener" href="https://www.supermicro.com/ja/products/motherboard/h11ssl-c">H11SSL-C</a> / <a target="_blank" rel="noopener" href="https://www.supermicro.com/ja/products/motherboard/h11ssl-nc">H11SSL-NC</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.supermicro.com/en/products/motherboard/H11DSi">H11DSi</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.supermicro.com/ja/products/motherboard/h11dsi-nt">H11DSi-NT</a></li>
+</ul>
+<p>H11SSL 系列只支持一个 CPU，如果上面选择了 <strong>XXXXP</strong> 的话可以考虑，这三款具体的区别我没有研究过。</p>
+<p>H11DSi 的两款都支持双路，NT 版支持两个 NVMe 接口，如果像我一样选择 H11DSi 的话后续就只能上 PCI-e 的 SSD 了。</p>
+<h2 id="风扇"><a href="#风扇" class="headerlink" title="风扇"></a>风扇</h2><p>组机器之前我十分害怕服务器暴力扇的噪音，多次在某宝浏览猫扇，然后卖主板的商家推荐我上拆机风扇，用了之后感觉很好，这里安利一下，原因有几点。</p>
+<ul>
+<li>几乎没有声音，甚至不如空调声音响</li>
+<li>肯定能装上去</li>
+<li>风道方向正常</li>
+</ul>
+<p>组完之后几乎没有风扇声，即使在跑 cinebench multicore 的时候，也能在听不到风扇声的情况下把温度压在 60 度之内，另一个原因是我的 CPU TDP 不高，没超频的情况下产生的热量还是比较少的。</p>
+<p>服务器主板上的散热器是特制的，有严格的安装步骤和螺丝孔位，如果选择家用散热器，可能会遇到装不上去的情况。</p>
+<p>风道方向比较抽象，我画了张图来说明：</p>
+<p><img src="cpu-fan.png" alt="CPU fan"></p>
+<p>图中 1 是家用 CPU 风扇的安装方法，而 2 是服务器 CPU 风扇的安装方法，区别是风扇被安装在 CPU 的窄边（主板就是这么设计的）。如果我们按照家用风扇的装法强行安装到服务器 CPU 上，风道就会变成 3 这个样子，往上吹了，当然也有可能根本装不上（摊手。</p>
+<h2 id="机箱"><a href="#机箱" class="headerlink" title="机箱"></a>机箱</h2><p>主板的选择会对机箱尺寸提出要求，我选择的 H11DSi 是 E-ATX 尺寸的，买的时候千万看好别拿到手发现塞不进去了。</p>
+<h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>H11DSi 主板上有集成显卡，但是只支持 VGA 接口，不建议买 HDMI 的亮机卡（反正我买了点不亮），最好直接用 VGA 接口的显示器（可能比亮机卡更便宜）。</p>
+<h2 id="完"><a href="#完" class="headerlink" title="完"></a>完</h2><p>就写到这里，后续有想到的坑点再补充。</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E8%B7%AF-%E5%A4%9A%E8%B7%AF"><span class="toc-text">单路 - 多路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU-%E4%BB%A3%E5%8F%B7"><span class="toc-text">CPU 代号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9D%BF"><span class="toc-text">主板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A3%8E%E6%89%87"><span class="toc-text">风扇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E7%AE%B1"><span class="toc-text">机箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA"><span class="toc-text">显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C"><span class="toc-text">完</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+        
+            <a class="next" href="/2022/06/19/ten-no-koe/">
+                
+                <span class="prev-text">「天聲」 - 个人翻译</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  
+  <div>
+      <img src="/assets/by-nc.svg">
+  </div="text">
+  
+
+  <div class="text">Powered By
+    <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/zjx137/hexo-theme-Tsu">Tsu</a> &copy 2020
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+    
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+        <script>
+            if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+            }
+        </script>
+    
+</html>

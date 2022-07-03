@@ -15,8 +15,33 @@
     <atom:link href="https://blog.tongmu.me/rss2.xml" rel="self" type="application/rss+xml"/>
     <atom:link href="https://blog.tongmu.me/" rel="hub"/>
     <description>you06&#39;s blog &amp; everything</description>
-    <pubDate>Sun, 19 Jun 2022 13:10:41 GMT</pubDate>
+    <pubDate>Sun, 03 Jul 2022 03:52:21 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Epyc 服务器之坑</title>
+      <link>https://blog.tongmu.me/2022/07/03/build-a-epyc-server/</link>
+      <guid>https://blog.tongmu.me/2022/07/03/build-a-epyc-server/</guid>
+      <pubDate>Sun, 03 Jul 2022 11:39:21 GMT</pubDate>
+      
+        
+        
+          
+          
+      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
+          
+        
+      
+      
+      
+      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>近期组了一台双路 Epyc 的服务器，这篇博客记录组机器时候的一些坑点，供朋友们参考。</p><p><img src="cpus.png" alt="CPUs"></p><p>Epyc 是 AMD 为服务器设计的 CPU，大概长这样。</p><p><img src="epyc-socket.jpg" alt="Epyc Socket"></p><h2 id="单路-多路"><a href="#单路-多路" class="headerlink" title="单路 - 多路"></a>单路 - 多路</h2><p>仔细观察上图的 CPU 型号为 <strong>7302P</strong>，同时 AMD 还有一款 CPU 型号为 <strong>7302</strong>，带 P 后缀的说明这个 CPU 只支持单插槽的，如果想组双路的话就要避开这类型号。除此之外这 <strong>XXXX</strong> 与 <strong>XXXXP</strong> 的性能几乎相同。</p><p><img src="7302-7302p.png" alt="7302-7302P"></p><h2 id="CPU-代号"><a href="#CPU-代号" class="headerlink" title="CPU 代号"></a>CPU 代号</h2><p>首先看 Epyc 的代号名称。</p><table><thead><tr><th>代数</th><th>代号</th><th>发布年份</th></tr></thead><tbody><tr><td>1</td><td>Naple</td><td>2017</td></tr><tr><td>2</td><td>Rome</td><td>2019</td></tr><tr><td>3</td><td>Milan(-X)</td><td>2021</td></tr><tr><td>4</td><td>…</td><td>2022</td></tr></tbody></table><p>四代代号比较多这里不写了，目前 3/4 代大船没靠岸大多也买不起。而一代和二代之间则优先推荐二代（一代是 14nm，二代是台积电 7nm）。在 CPU 的代号中，代数体现在最后一个数字上，上面提到的 <strong>7302</strong> 就是二代 CPU。中间两位数字简单地说就是越大越好，感兴趣的朋友可以去 <a href="https://en.wikipedia.org/wiki/Epyc#Second_generation_Epyc_(Rome)">wiki</a> 看看售价和参数。</p><h2 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h2><p>我选择的是超微 H11DSi，海鲜市场 1250 买的，这里说一下几种型号的差别。</p><ul><li><a href="https://www.supermicro.com/ja/products/motherboard/H11SSL-i">H11SSL-i</a> / <a href="https://www.supermicro.com/ja/products/motherboard/h11ssl-c">H11SSL-C</a> / <a href="https://www.supermicro.com/ja/products/motherboard/h11ssl-nc">H11SSL-NC</a></li><li><a href="https://www.supermicro.com/en/products/motherboard/H11DSi">H11DSi</a></li><li><a href="https://www.supermicro.com/ja/products/motherboard/h11dsi-nt">H11DSi-NT</a></li></ul><p>H11SSL 系列只支持一个 CPU，如果上面选择了 <strong>XXXXP</strong> 的话可以考虑，这三款具体的区别我没有研究过。</p><p>H11DSi 的两款都支持双路，NT 版支持两个 NVMe 接口，如果像我一样选择 H11DSi 的话后续就只能上 PCI-e 的 SSD 了。</p><h2 id="风扇"><a href="#风扇" class="headerlink" title="风扇"></a>风扇</h2><p>组机器之前我十分害怕服务器暴力扇的噪音，多次在某宝浏览猫扇，然后卖主板的商家推荐我上拆机风扇，用了之后感觉很好，这里安利一下，原因有几点。</p><ul><li>几乎没有声音，甚至不如空调声音响</li><li>肯定能装上去</li><li>风道方向正常</li></ul><p>组完之后几乎没有风扇声，即使在跑 cinebench multicore 的时候，也能在听不到风扇声的情况下把温度压在 60 度之内，另一个原因是我的 CPU TDP 不高，没超频的情况下产生的热量还是比较少的。</p><p>服务器主板上的散热器是特制的，有严格的安装步骤和螺丝孔位，如果选择家用散热器，可能会遇到装不上去的情况。</p><p>风道方向比较抽象，我画了张图来说明：</p><p><img src="cpu-fan.png" alt="CPU fan"></p><p>图中 1 是家用 CPU 风扇的安装方法，而 2 是服务器 CPU 风扇的安装方法，区别是风扇被安装在 CPU 的窄边（主板就是这么设计的）。如果我们按照家用风扇的装法强行安装到服务器 CPU 上，风道就会变成 3 这个样子，往上吹了，当然也有可能根本装不上（摊手。</p><h2 id="机箱"><a href="#机箱" class="headerlink" title="机箱"></a>机箱</h2><p>主板的选择会对机箱尺寸提出要求，我选择的 H11DSi 是 E-ATX 尺寸的，买的时候千万看好别拿到手发现塞不进去了。</p><h2 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h2><p>H11DSi 主板上有集成显卡，但是只支持 VGA 接口，不建议买 HDMI 的亮机卡（反正我买了点不亮），最好直接用 VGA 接口的显示器（可能比亮机卡更便宜）。</p><h2 id="完"><a href="#完" class="headerlink" title="完"></a>完</h2><p>就写到这里，后续有想到的坑点再补充。</p>]]></content:encoded>
+      
+      
+      
+      
+      <comments>https://blog.tongmu.me/2022/07/03/build-a-epyc-server/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>「天聲」 - 个人翻译</title>
@@ -508,31 +533,6 @@
       
       
       <comments>https://blog.tongmu.me/2021/02/01/deterministic-database-history/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Review「WILL: A Wonderful World」</title>
-      <link>https://blog.tongmu.me/2021/01/29/review-will-a-wonderful-world/</link>
-      <guid>https://blog.tongmu.me/2021/01/29/review-will-a-wonderful-world/</guid>
-      <pubDate>Fri, 29 Jan 2021 20:07:00 GMT</pubDate>
-      
-        
-        
-          
-          
-      <description>&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;</description>
-          
-        
-      
-      
-      
-      <content:encoded><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><ul><li>steam: <a href="https://store.steampowered.com/app/588040/WILL_A_Wonderful_World__WILL/">https://store.steampowered.com/app/588040/WILL_A_Wonderful_World__WILL/</a></li></ul><p>游戏时长大约 10h 多一些，我很喜欢的游戏风格，通过上帝视角观察一个故事，和《十三机兵防卫圈》的叙事手法有点相似，而游戏方式非常有创意。</p><h2 id="整体评价"><a href="#整体评价" class="headerlink" title="整体评价"></a>整体评价</h2><p>优点</p><ul><li>剧情非常有趣，比国产半吊子 gal 和日本废萌强太多</li><li>游戏形式新颖，关卡设计巧妙</li><li>文字的表达能力极强</li></ul><p>缺点</p><ul><li>部分关卡设计有些不明确，以至于我不得不靠穷举法来过关</li><li>角色对话没有 log</li><li>立绘再多点就好了。虽然已经很多了，但文字量也着实不小，很多章节还是纯文字的</li></ul><h2 id="我的一些个人意见"><a href="#我的一些个人意见" class="headerlink" title="我的一些个人意见"></a>我的一些个人意见</h2><p>游戏内角色之间的交互多以文字关系而非逻辑关系为主，结果是角色之间的关联性不强，所有的登场角色没有行成一个整体。没有整体性给游戏后期带来的影响就是不能通过所有角色都登场的情节设计来叙事，导致但看某一个角色的剧情都不长，意犹未尽。</p><p>因为是基于文字的，像“门开了”这种词汇，可能会有多义，可以是指房间门，也可以是指箱子。通过文字逻辑的排列来改变语言想要表达的思想，很好玩的游戏设计。但是关卡设计质量不一，有些关卡我直接穷举。</p><p>音乐我觉得挺好的，但没有出现像「Seaside Vacation」这种游戏气氛代入感惊艳的音乐，但毕竟是独立游戏，目前的质量已经很强了。</p><p>我是用手柄玩的，在模拟鼠标操作的时候，游戏有小 bug，除此之外，手柄的游戏体验很好。</p><p>玩游戏的时候手边没有咖啡 :(</p><p>这个游戏所展现出来的故事，不是喜剧、也不是悲剧，大概是喜中有一些物哀的成分，游戏中有的角色的悲剧是不可避免的，即使是「神」在改写命运，亦有生离死别。只是如果没有玩家扮演的“神”，这些人原本的命运可能就是错过自己所追寻的东西罢了。</p><p>总评分 8.5/10。</p>]]></content:encoded>
-      
-      
-      
-      
-      <comments>https://blog.tongmu.me/2021/01/29/review-will-a-wonderful-world/#disqus_thread</comments>
       
     </item>
     
