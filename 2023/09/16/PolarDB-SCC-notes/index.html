@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="icon" type="image/png" href="/icon/icon-196x196.png" sizes="196x196">
+<link rel="icon" type="image/png" href="/icon/icon-96x96.png" sizes="96x96">
+<meta name="description" content="PolarDB 在 VLDB 2023 又发了篇文章，讲他们是如果做一个 SCC(Strongly Consistent Cluster) 的，这篇文章标题很大，但核心内容缺不大，也属于瞄准一小点所做的工作。文章称他们的工作是 “first ’read-write splitting’ cloud-native database”，这点请读者自行品味，本文仅仅讲一下我所看到的亮点。 目标问题这篇文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PolarDB-SCC 笔记">
+<meta property="og:url" content="https://blog.tongmu.me/2023/09/16/PolarDB-SCC-notes/index.html">
+<meta property="og:site_name" content="Freezing">
+<meta property="og:description" content="PolarDB 在 VLDB 2023 又发了篇文章，讲他们是如果做一个 SCC(Strongly Consistent Cluster) 的，这篇文章标题很大，但核心内容缺不大，也属于瞄准一小点所做的工作。文章称他们的工作是 “first ’read-write splitting’ cloud-native database”，这点请读者自行品味，本文仅仅讲一下我所看到的亮点。 目标问题这篇文">
+<meta property="og:locale">
+<meta property="og:image" content="https://blog.tongmu.me/2023/09/16/PolarDB-SCC-notes/1.png">
+<meta property="og:image" content="https://blog.tongmu.me/2023/09/16/PolarDB-SCC-notes/2.png">
+<meta property="article:published_time" content="2023-09-16T18:15:00.000Z">
+<meta property="article:modified_time" content="2023-09-16T10:19:39.908Z">
+<meta property="article:author" content="you06">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.tongmu.me/2023/09/16/PolarDB-SCC-notes/1.png">
+<meta name="twitter:creator" content="@you06v">
+<meta name="twitter:title" content="PolarDB-SCC 笔记">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BCL84R82GK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BCL84R82GK');
+</script>
+
+
+<meta name="twitter:description" content="PolarDB 在 VLDB 2023 又发了篇文章，讲他们是如果做一个 SCC(Strongly Consistent Cluster) 的，这篇文章标题很大，但核心内容缺不大，也属于瞄准一小点所做的工作。文章称他们的工作是 “first ’read-write splitting’ cloud-native database”，这点请读者自行品味，本文仅仅讲一下我所看到的亮点。 目标问题这篇文">
+
+
+<title>PolarDB-SCC 笔记 | Freezing</title>
+
+
+<link rel="stylesheet" href="/styles/main.css">
+
+
+    <!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Freezing" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Freezing" type="application/rss+xml">
+</head>
+    <body>
+        <div class="container">
+            <header>
+<div id='wx_pic' style='margin:0 auto;display:none;'>
+    <img src='/icon/wechat-icon.jpg' />
+</div>
+<div class="main">
+<div class="title">
+    <a href="/" class="logo">Freezing</a>
+</div>
+<div class="site-nav">
+    <ul id="menu" class="menu">
+    
+        <li class="menu-item text-underline">
+            <a href="/">Home</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/archives">Archives</a>
+        </li>
+    
+        <li class="menu-item text-underline">
+            <a href="/about/">About</a>
+        </li>
+            
+    </ul>
+</div>
+</div>
+</header>
+            <main class="main">
+                <section class="posts clearfix">
+<div class="post-wrapper">
+    <article class="post article-entry">
+    <div class="post-title">
+        PolarDB-SCC 笔记
+    </div>
+    <p class="sub">Sep 16 2023</p>
+    <div class="post-content">
+        <p>PolarDB 在 VLDB 2023 又发了篇文章，讲他们是如果做一个 SCC(Strongly Consistent Cluster) 的，这篇文章标题很大，但核心内容缺不大，也属于瞄准一小点所做的工作。文章称他们的工作是 “first ’read-write splitting’ cloud-native database”，这点请读者自行品味，本文仅仅讲一下我所看到的亮点。</p>
+<h2 id="目标问题"><a href="#目标问题" class="headerlink" title="目标问题"></a>目标问题</h2><p>这篇文章要解决的目标问题比较简单，在一写（RW）多读（RO）的集群并且需要 read-after-write consistency 时，往往需要 RW 节点来处理许多读请求，而这一架构原本的目标是将读请求都 offload 到 RO 节点上面去，现实中由于 read-after-write 的要求，目标没有达到，figure 2 可以看到在读流量增长时，RW 节点的 CPU 也跟着增长，RO 节点确实一核有难，八核围观。</p>
+<p><img src="./1.png" alt="1"></p>
+<p>为了达成原本的设计目标，即即使在 read-after-write 的要求下，也能够讲读请求 offload 到 RO 节点上，论文设计了 PolarDB-SCC。</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>现有的在 RO 节点上做到 read-after-write 的方法有两种 commit-wait 和 read-wait，但都有缺陷。</p>
+<ul>
+<li>commit-wait 等所有读节点都同步完之后才返回 commit 成功，写入延迟无法接受</li>
+<li>read-wait 需要等 RO 的 buffer 进度跟上 RW 才能处理读请求，读取延迟无法接受</li>
+</ul>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>PolarDB-SCC 的解法很直接，使用 read-wait 策略，但是将 buffer 切分，切分后，只要是 buffer 没有变化的分片，就不需要 wait。</p>
+<h2 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h2><p>PolarDB-SCC 有三部分工作</p>
+<ul>
+<li>Hierarchical modification tracker</li>
+<li>Lamport timestamp</li>
+<li>RDMA-based log shipping protocol（与核心思想关系不大）</li>
+</ul>
+<h3 id="Hierarchical-modification-tracker"><a href="#Hierarchical-modification-tracker" class="headerlink" title="Hierarchical modification tracker"></a>Hierarchical modification tracker</h3><p>这部分分为了 global，table，page 三层，分别记载了自己的 scope 下的 max modification timestamp，当遇到读请求时，从 global 检查到 page，只要 <code>read timestamp &gt; level max modification timestamp</code>，读请求就可以直接进行，不需要 read wait，只有当 <code>read timestamp &lt;= page max modification timestamp</code>，才需要 read wait。</p>
+<p>Max modification timestamp 的检查是 RO 发起的，但是 herarchical modification tracker 却在 RW 之上，如果每次都去 RW 上读一下，那 overhead 会很大，所以下面就来解决 overhead 的问题。</p>
+<h3 id="Linear-Lamport-timestamp"><a href="#Linear-Lamport-timestamp" class="headerlink" title="Linear Lamport timestamp"></a>Linear Lamport timestamp</h3><p>其实 Lamport timestamp 不是减少拿 max modification timestamp 的关键，关键是它有一个 batch 机制。如果一个 read request 开始处理时，没有空 connection，那么它会被加入队列，等待 available connection，available connection 会取一个当前的 max modification timestamp，用它来检测所有队列中的 read request 是否可以跳过 read wait。</p>
+<p>此外，RO 节点还会做一个 cache，如果后面来的 read request timestamp 比 cached RO timestamp 更小，则直接使用 cache 值。</p>
+<p>如果是 repeatable read 的 isolation，那只需要用 begin 时候的 timestamp 来做检测就好了，后面的一定会命中 cache。哈哈，又发现又一个 RR 比 RC 实现简单的例子。</p>
+<p><img src="./2.png" alt="2"></p>
+<p>另外上面提到了分层嘛，如果需要检测多层的话，实践中会分多次去 RW 节点 fetch max timestamp。</p>
+<p>进一步的，为了降低 timestamp fetching 对 RW 节点的影响，这里使用了 one-sided RDMA，可以避免 RW 节点的 CPU 介入。而上面的分层 timestamp 使用 hash 也是为了能够提前确定 RDMA fetch 的地址。</p>
+<h3 id="RDMA-based-log-shipping-protocol"><a href="#RDMA-based-log-shipping-protocol" class="headerlink" title="RDMA-based log shipping protocol"></a>RDMA-based log shipping protocol</h3><p>这个感觉和文章的核心思想关系不大，在有 RDMA 的情况下，文章又想着用 RDMA 来同步 log，但是 buffer ring 会被反复刷写（RW 节点无法感知 RO 节点的 apply 进度），所以需要仔细检查 buffer 合法性，在 buffer ring 被刷掉时，RO 节点就需要去 storage node 读取 log。</p>
+<p>在最后的 review 中，文章提到这个优化只起到了 4% 的效果，因为在能够跳过 read wait 之后，apply duration 不再是瓶颈（只有少部分需要等 read wait 的 read request 收益于这个优化）。</p>
+<h3 id="Optimization"><a href="#Optimization" class="headerlink" title="Optimization"></a>Optimization</h3><p>文章还做了一个优化，因为同一个事务需要读到自己所写入的数据，在 RW 节点处理完写入语句后，会给 proxy 节点返回一个 LSN，在处理后续的读语句时，proxy 节点会尽可能选择满足这个 LSN 的 RO 节点，算是一个小小的优化。</p>
+<h2 id="Challenge"><a href="#Challenge" class="headerlink" title="Challenge"></a>Challenge</h2><p>看这篇文章的时候唤醒了我对 PolarDB-X 的一些疑问，通常我们都是先看市场需求之后再考虑数据库的设计，而 PolarDB-SCC 的做法，将 RW 和 RO 节点绑定在了同一个数据中心，他们通过 RDMA 相连，速度非常快。但是这样的大集群能否抗住 AZ outage，是否会在实践中产生很多的跨 AZ 流量？换言之，追求一个 AZ 内部的性能是不是市场真正的需求？</p>
+
+    </div>
+    </article>
+</div>
+
+    <div class="_toc">
+        <strong class="toc-title">
+        Contents
+        </strong>
+        <div class="toc-content">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E9%97%AE%E9%A2%98"><span class="toc-text">目标问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Background"><span class="toc-text">Background</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-text">Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Design"><span class="toc-text">Design</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hierarchical-modification-tracker"><span class="toc-text">Hierarchical modification tracker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear-Lamport-timestamp"><span class="toc-text">Linear Lamport timestamp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RDMA-based-log-shipping-protocol"><span class="toc-text">RDMA-based log shipping protocol</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optimization"><span class="toc-text">Optimization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Challenge"><span class="toc-text">Challenge</span></a></li></ol>
+        </div>
+    </div>
+
+</section>
+
+
+    <nav class="post-nav">
+        
+            <div class="page-tags">
+                
+            </div>
+        
+    </nav>
+
+
+
+    <nav class="paginator clearfix">
+        
+        
+            <a class="next" href="/2023/06/18/PolarDB-X-notes/">
+                
+                <span class="prev-text">PolarDB-X 笔记</span>
+                <i class="iconfont icon-right"></i>
+            </a>
+        
+    </nav>
+
+
+            </main>
+            <div class="copyright">
+  
+  <div>
+      <img src="/assets/by-nc.svg">
+  </div="text">
+  
+
+  <div class="text">Powered By
+    <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/zjx137/hexo-theme-Tsu">Tsu</a> &copy 2020
+  </div>
+</div>
+
+        </div>
+    <div class="back-to-top" id="back-to-top">
+            <i class="iconfont icon-up"></i>
+    </div>
+        
+    </body>
+    
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+    
+<script src="/js/back-to-top.js"></script>
+
+    
+<script src="/js/scroll.js"></script>
+
+    <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": { 
+        preferredFont: "TeX", 
+        availableFonts: ["STIX","TeX"], 
+        linebreaks: { automatic:true }, 
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) 
+    },
+    tex2jax: { 
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ], 
+        processEscapes: true, 
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {  
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, 
+        Macros: { href: "{}" } 
+    },
+    messageStyle: "none"
+    }); 
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+    
+        <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+        <script>
+            if (window.mermaid) {
+                mermaid.initialize({theme: 'forest'});
+            }
+        </script>
+    
+</html>
